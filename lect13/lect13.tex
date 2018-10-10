@@ -1,0 +1,188 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx}
+\graphicspath{ {./images/} }
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CPSC 421: Introduction to Theory of Computing
+    \hfill Winter Term 1 2018-19} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+        \vspace{2mm}}
+    }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+%    {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%    {\bf Disclaimer}: {\it These notes have not been subjected to the
+%    usual scrutiny reserved for formal publications.  They may be distributed
+%    outside this class only with the permission of the Instructor.}
+%    \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+            \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+            \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{13}{October 3}{Nicholas Harvey}{Kaitian Xie}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\section{Multitape TM}
+
+\textbf{Multitape TM example:} $L = \{x\#x : x \in \Sigma^*\}$
+
+Let's do an implementation-level description of a multi-tape TM for $L$. Our original TM took time $\Theta(n^2)$ for inputs of length $n$.
+
+\begin{enumerate}
+  \item Scan head 1 to the right until it reads a \#. Move Right. (Second head is still at start of tape 2)
+  \item Repeatedly read symbol from tape 1, write it to tape 2, move both heads right, until seeing a blank on tape 1. Now second half of input is on tape 2.
+  \item Move both heads left until they reach start of tapes (possibly using \$ back to find start of tape). Replace \# by $\textvisiblespace$ while doing so.
+  \item Repeat until $\textvisiblespace$ on both tapes. If symbols differ, reject. Else, move both heads right.
+\end{enumerate}
+
+The multi-tape TM runs in $\Theta(n)$ time!
+
+\section{Nondeterministic Turing Machines}
+
+Last time: Configuration of TM, $aqb$, $a, b \in \Gamma^*$, $q \in Q$
+
+Acceptance of a NTM: Input string is accepted if $\exists$ configurations $c_0, c_1, \cdots, c_k$ where:
+\begin{itemize}
+  \item $c_0 = q_{start} \;w$
+  \item $c_i \Rightarrow c_{i+1}$ ($c_{i+1}$ is a possible configuration from $c_i$ following the transition function $\delta$)
+  \item $c_k$ is on the accepting state
+\end{itemize}
+
+i.e. in a tree of configs, is there an accepting state:
+\begin{enumerate}
+  \item $w$ is accepted: any node in tree is an accepting state
+  \item $w$ is explicitly rejected: the tree is finite, but yet no node is accepting config i.e. all leaves are rejection configs
+  \item The NTM runs forever on $w$: the tree is infinite, but no node is accepting config
+\end{enumerate}
+
+\begin{definition}
+  A NTM is a decider if for all inputs, case 1 or 2 happens.
+\end{definition}
+
+Example of NTMs: Let $L_1$, $L_2$ be recognizable languages. Let $M_i$ be a TM that recognizes $L_i$.
+
+\begin{claim}
+  $L_1 \cup L_2$ is recognizable. A cheat! Let's use nondeterminism.
+\end{claim}
+
+\begin{definition}
+  Define a NTM $M$ as follows:
+  \begin{itemize}
+    \item Nondeterministically choose to do one of the following:
+      \begin{itemize}
+        \item Run $M_1$
+        \item Run $M_2$
+      \end{itemize}
+    \end{itemize}
+\end{definition}
+
+\begin{claim}
+  $M$ recognizes $L_1 \cup L_2$.
+\end{claim}
+
+\begin{proof}
+  Suppose $w \in L_1 \cup L_2$. Say $w \in L_2$. Then the branch of tree simulating $M_i$ will accept. So $M$ is in case 1, and accepts. If $w \notin L_1 \cup L_2$, then both $M_1 \& M_2$ either run forever or reject. So $M$ is in either case 2 and case 3. So $M$ does not accept $w$.
+\end{proof}
+
+\begin{theorem}
+  Given a NTM $M$, we can construct a DTM $M$ s.t. $L(M) = L(M')$.
+\end{theorem}
+
+\begin{theorem}
+  If $M$ is a NTM decider, then we can make $M'$ a decider as well.
+\end{theorem}
+
+Using Theorem, we get a DTM $M'$, completing proof of claim 1.
+
+\end{document}

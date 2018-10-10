@@ -1,0 +1,199 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CPSC 421: Introduction to Theory of Computing
+    \hfill Winter Term 1 2018-19} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+        \vspace{2mm}}
+    }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+%    {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%    {\bf Disclaimer}: {\it These notes have not been subjected to the
+%    usual scrutiny reserved for formal publications.  They may be distributed
+%    outside this class only with the permission of the Instructor.}
+%    \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+            \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+            \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{2}{September 7}{Nicholas Harvey}{Kaitian Xie}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\section{Finite Automaton (DFA)}
+Why? 
+\begin{itemize}
+  \item To study the \underline{languages} related to F.A.
+  \item 
+  \begin{enumerate}
+    \item As a stepping-stone to richer computational models
+    \item Useful background for NLP and compilers
+    \item To understand regular expressions
+  \end{enumerate}
+\end{itemize}
+
+\textbf{Informal definition:} A computational machine for a decision problem on any input string, either:
+\begin{enumerate}
+  \item outputs Accept and halts
+  \item outputs Reject and halts
+  \item runs forever
+\end{enumerate}
+
+In case 1 we say that machine \underline{accepts} $w$. The language \emph{accepted by machine} $M$
+
+\begin{equation*}
+  L = \{w \in \Sigma^*: M accepts w\}
+\end{equation*}
+
+\textbf{Theme:} Understand relationship between:
+\begin{itemize}
+  \item classes of machines
+  \item classes of languages $\equiv$ classes of decision problems they can solve
+  \item and their properties
+\end{itemize}
+
+\textbf{Finiate Automata}
+
+What is $L$ or $L(M)$?
+
+Is it:
+\begin{itemize}
+  \item $\{w: \text{either $w$ ends in 1 or \# 0s after the last 1 is even}\}$
+  \item $\{w: \text{$w$ contains a 1, and after the last 1, has even number of 0s}\}$
+\end{itemize}
+
+\begin{definition}
+  A finite automaton is a 5-tuple $M=(Q, \Sigma, \delta, q_0, F)$ where
+  \begin{itemize}
+    \item $Q$ is a finite set (set of states)
+    \item $\Sigma$ is a finite set (the alphabet)
+    \item $\delta: Q \times E \rightarrow Q$ (the transition function)
+    \item $q_0 \in Q$ (start state)
+    \item $F \in Q$ (the accepting state)
+  \end{itemize}
+\end{definition}
+
+\section{``Language Accepted By''}
+
+\begin{definition}
+  A F.A. M accepts input string $w \in \Sigma^*$ if there exists a sequence $r_0, r_1, r_2, \cdots, r_n \in Q$ s.t.
+  \begin{itemize}
+    \item $r_0 = q_0$
+    \item $r_i = \delta(r_{i-1}, w_i), \forall i = 1, \cdots, n$
+    \item $r_n \in F$
+  \end{itemize}
+  Think of $r_0, \cdots, r_n$ as the sequence of states visited during the machine's computation.
+  
+  $L(M) = \{w \in \Sigma^*: M \text{ accepts } w\}$
+  
+  \begin{itemize}
+    \item The language \underline{accepted} by M
+    \item The language \underline{decided} by M 
+    \item The language \underline{recognized} by M
+  \end{itemize}
+
+\end{definition}
+
+$L = \{11011, 110011, 1100011, 11000011, \cdots\}$
+
+\textbf{Implicit Error States}: If $\delta$ is not fully specified, then we assume an implicit transition to an ``error state''.
+
+\section{Regular Language}
+
+\begin{definition}
+  A \underline{regular language} is any language accepted by some Finite Automaton. The set of all regular languages is called the \underline{the class of regular languages}.
+\end{definition}
+
+\end{document}
