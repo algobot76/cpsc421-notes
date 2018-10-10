@@ -256,7 +256,7 @@ TSWLatexianTemp*
 *.sta
 
 # pdf directory
-!pdf/
+!pdf/*
 
 ### LaTeX Patch ###
 # glossaries
