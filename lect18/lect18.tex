@@ -133,10 +133,14 @@ $E_{TM} = \{\langle N \rangle : N \text{ is a TM s.t. } L(N) = \emptyset\}$
     \item Construct description of $N$ like this:
     
     Let $N$ be TM: On input $y$, (ignore input), simulate $M$ on input $w$:
+
     \begin{enumerate}
       \item If $M$ accepts $N$ accepts.
       \item If $M$ rejects $N$ rejects.
-    \end{enumerate} 
+    \end{enumerate}
+     
+     \item Run $R$ on input $\langle N \rangle$.
+     \item Accept if $R$ rejects; reject if $R$ accepts.
   \end{enumerate}
   
   $S$ is a decider since $R$ is.
