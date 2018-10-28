@@ -113,8 +113,6 @@
 \lecture{19}{October 22}{Nicholas Harvey}{Kaitian Xie}
 %\footnotetext{These notes are partially based on those of Nigel Mansell.}
 
-\section{Measuring Complexity}
-
 \begin{definition}
   The running time of a (deterministic) TM is a function $f:\mathbb{N} \rightarrow \mathbb{N}$ given by $f(n) = \max\limits_{\substack{x \in \Sigma^* \\ |x| = n}}^{}$ (\# of steps of $M$ on input $x$).
 \end{definition}
@@ -126,8 +124,6 @@ A class of languages defined by some resource constraint is called a \underline{
 \begin{definition}
   $TIME(t(n)) = \{\text{language } L : \text{ there exists a TM with running time } O(t(n))\}$.mmmm
 \end{definition}
-
-\section{Define P and EXP}
 
 \begin{definition}
   $P = \bigcup\limits_{c>0}^{} TIME(n^c)$
