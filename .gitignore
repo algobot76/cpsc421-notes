@@ -255,9 +255,6 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 
-# pdf directory
-!pdf/*
-
 ### LaTeX Patch ###
 # glossaries
 *.glstex
