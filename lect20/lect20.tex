@@ -106,14 +106,15 @@
 % **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
 
 \newcommand\E{\mathbb{E}}
+\newcommand{\set}[1]{\left \{ #1 \right \}}
+\newcommand{\encoding}[1]{\left \langle #1 \right \rangle}
+\newcommand{\abs}[1]{\left | #1 \right |}
 
 \begin{document}
 %FILL IN THE RIGHT INFO.
 %\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
 \lecture{20}{October 24}{Nicholas Harvey}{Kaitian Xie}
 %\footnotetext{These notes are partially based on those of Nigel Mansell.}
-
-\section{Time Hierarchy Theorem}
 
 \begin{definition}
   $EXP = \bigcup\limits_{k \geq 1} TIME(2^{n^k})$ and $P = \bigcup\limits_{c > 0} TIME(n^c)$ 
@@ -153,10 +154,10 @@ Why? Any DTM is trivially an NTM.
 
 Here's an NTM that decides it: On input $x$,
 \begin{enumerate}
-  \item Reject if $x \notin \langle G \rangle$.
+  \item Reject if $x \notin \encoding{G}$.
   \item Let $n$ be \# countries in $G$.
-  \item Nondeterministically pick $Z \in \{1, 2, 3\}^n$
-  \item For all $c, j \in \{1, \cdots, n\}$, if $i$ neighbours $j$ and $Z_i = Z_j$, reject.
+  \item Nondeterministically pick $Z \in \set{1, 2, 3}^n$
+  \item For all $c, j \in \set{1, \cdots, n}$, if $i$ neighbours $j$ and $Z_i = Z_j$, reject.
   \item Accept.
 \end{enumerate}
 
@@ -180,7 +181,7 @@ Why? Because $P \neq EXP$. It is believed that $P \neq NP \neq EXP$.
   (Sipser 7.20): The following are equivalent:
   \begin{enumerate}
     \item $L \in NP$
-    \item There exists a deterministic, polynomial time TM V and a constant $c$, such that $L = \{x \in \Sigma^* \; \exists y \in \Sigma^* \text{ such that } |y| \leq |x|^c \text{ and } V \text{ accepts } (x, y)\}$
+    \item There exists a deterministic, polynomial time TM V and a constant $c$, such that $L = \{x \in \Sigma^* \; \exists y \in \Sigma^* \text{ such that } \abs{y} \leq \abs{x}^c \text{ and } V \text{ accepts } (x, y)\}$
   \end{enumerate}
 \end{theorem}
 
