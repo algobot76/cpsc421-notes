@@ -1,0 +1,185 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx}
+\graphicspath{ {./images/} }
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CPSC 421: Introduction to Theory of Computing
+    \hfill Winter Term 1 2018-19} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+        \vspace{2mm}}
+    }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+%    {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%    {\bf Disclaimer}: {\it These notes have not been subjected to the
+%    usual scrutiny reserved for formal publications.  They may be distributed
+%    outside this class only with the permission of the Instructor.}
+%    \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+            \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+            \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand\E{\mathbb{E}}
+\newcommand{\abs}[1]{\left | #1 \right |}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{22}{October 29}{Nicholas Harvey}{Kaitian Xie}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\begin{theorem}
+  (Sipser Thm. 7.31) If $A \leq_{P} B$ and $B \in P$ then $A \in P$.
+\end{theorem}
+
+\begin{proof}
+  Let $N$ be a \textsf{TM} that decides $B$ in polytime. Let $f$ be a reduction from $A$ to $B$. We must design a \textsf{TM} $M$ that decides $A$.
+  
+  Code for $M$: on input $x$
+  
+  \begin{enumerate}
+    \item Let $z = f(x)$.
+    \item Simulate $N$ on input $z$.
+    \item \emph{Accept} if $N$ does; \emph{reject} if $N$ does.
+  \end{enumerate}
+\end{proof}
+
+\begin{claim}
+  $M$ decides $A$ in polytime.
+\end{claim}
+
+Why? If $M$ accepts $\Rightarrow$ $N$ accepts $z = f(x)$ $\Rightarrow$ $f(x) \in B$ $\Rightarrow$ $x \in A$; similarly, $\ldots$ rejects $\Rightarrow$ $\ldots$ rejects $\Rightarrow$ $f(x) \notin B$ $\Rightarrow$ $x \notin A$.
+
+\underline{Runtime}: $\abs{z} = O(\abs{x}^c)$ for some $c$. Runtime of $N$ is $poly(\abs{z}) = poly(\abs{x})$. So $M$ runs in polytime.
+
+Question: Which problems in NP are ``hard''?
+
+Tricky $\ldots$ If $P = NP$, then all of NP are easy.
+
+\begin{definition}
+  A language $L$ is \underline{NP-hard} if $A \leq_{P} L$ for all $A \in NP$, i.e. $L$ is as hard as everything in NP.
+\end{definition}
+
+\begin{claim}
+  $A_{TM}$ is NP-hard (maybe later).
+\end{claim}
+
+Not terribly useful, because we wanted a hard problem \underline{in} $NP$.
+
+\begin{definition}
+  A language $L$ is \underline{NP-complete} if $L$ is NP-hard, and $L \in NP$, i.e. $L$ is a ``hardest problem'' in NP.
+\end{definition}
+
+Does anything satisfy the definition? Amazingly, yes!
+
+\begin{theorem}
+  (Cook-Levin) SAT is NP-complete.
+\end{theorem}
+
+\begin{theorem}
+  (Main tool for showing NP-completeness)
+  
+  If
+  
+  \begin{enumerate}
+    \item $B$ is NP-complete
+    \item $C$ is in NP
+    \item $B \leq_{P} C$
+  \end{enumerate}
+  
+  Then $C$ is NP-complete.
+\end{theorem}
+
+\begin{proof}
+  By (2), $C$ is in NP. So it remains to show $C$ is NP-hard. i.e. $A \leq_{P} C$ for all $A \in NP$. For any $A$, we know there is a polytime computable $f$ s.t. $f(x) \in B \Leftrightarrow x \in A$ (because $A \leq_{P} B$). By (3), $\ldots$ $g$  s.t. $g(y) \in C \Leftrightarrow y \in B$. Let $h = g \circ f$ (i.e. $h(x) = g(f(x))$). The $h$ is polytime computable, and $h(x) \in C \Leftrightarrow x \in A$. So $h$ shows that $A \leq_{P} C$. Since this holds $\forall A \in$ NP, $C$ is NP-hard.
+\end{proof}
+
+The sort reduction we use in showing $A \leq_{P} B$ is called a ``Karp reudction'' or a ``polytime mapping problem''. Another type of reduction. more analogous to Turing-reductions, would be ``Use subroutine for $B$ a polynomial number of times to solve $A$''. Those are called ``Cook reductions''. (Possibly appearing in Asst 6 $\dots$).
+
+\end{document}
