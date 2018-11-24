@@ -1,0 +1,152 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx}
+\graphicspath{ {./images/} }
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CPSC 421: Introduction to Theory of Computing
+    \hfill Winter Term 1 2018-19} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+        \vspace{2mm}}
+    }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+%    {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%    {\bf Disclaimer}: {\it These notes have not been subjected to the
+%    usual scrutiny reserved for formal publications.  They may be distributed
+%    outside this class only with the permission of the Instructor.}
+%    \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+            \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+            \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\set}[1]{\left \{ #1 \right \}}
+\newcommand{\abs}[1]{\left | #1 \right |}
+\newcommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+\newcommand{\encoding}[1]{\left \langle #1 \right \rangle}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{32}{November 23}{Nicholas Harvey}{Kaitian Xie}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\underline{Model}: Alice \& Bob agree beforehand on a protocol. If $f(x, y) = 1$, then Pierre should be able to create a certificate $z$ that forces Alice \& Bob both to accept. If $f(x, y) = 0$, then protocol should ensure at least one of Alice \& Bob rejects, even if Pierre tries to fool then with a bogus certificate.
+
+\underline{Note}: The decisions of Alice \& Bob need not agree.
+
+\begin{equation*}
+    N(f) = \min (\text{length of certificate}) \text{ over all nondeterministic protocols for } f \tag{nondeterministic communication complexity}
+\end{equation*}
+
+\underline{Example}: $N(\neg DISJ) \leq \log(n)$
+
+\underline{Solution}:Pierre can compute $x \cap y$. Pierre lets $z$ be a bitvector of length $n$ representing $x \cap y$. Alice accepts if $z \leq x$ and $z$ non-empty. Bob accepts if $z \leq y$ and $z$ non-empty. This shows $N(\neg DISJ) \leq n$.
+
+\underline{Solution2}: If $x \cap y \neq \emptyset$, Pierre can pick any $i \in x \cap y$, and let $z$ be binary encoding of $i$. Alice accepts if $i \in x$. Bob accepts if $i \in y$. This shows $N(\neg DISJ) \leq \log(n)$.
+
+Last time: $D(DISJ) \geq n + 1$
+
+What is $D(\neg DISJ)$? $\geq n + 1$ by Fooling set argument. $\leq n + 1$ by Trivial protocol.
+
+\begin{claim}
+    $D(f) = D(\neq f) \forall f$
+\end{claim}
+
+\underline{Question}: Prove $N(\neg EQ) \leq O(\log(n))$.
+
+Pierre creates certificate $z = (i, x_i)$, where $i \in \set{1, \ldots, n}$ is any index where $x_i \neq y_i$. Alice accepts if $x_i = \hat{x_i}$. Bob accepts if $y_i \neq \hat{x_i}$. This shows $N(\neg EQ) \leq \lg(n) + 1$. Before: $D(EQ) = n + 1 = D(\neg EQ)$.
+
+\underline{Useful fact}: Let $S$ be a fooling set  where $f(x, y) = 1, \forall (x, y) \in S$. Then $N(f) \geq \ceil(\lg_2(\abs{S})))$
+
+\underline{Example}: $N(EQ) \geq n$ (our fooling set, the diagonal, had size $2^n$)
+
+\end{document}
