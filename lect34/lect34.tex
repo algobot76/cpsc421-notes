@@ -1,0 +1,196 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx,multicol}
+\graphicspath{ {./images/} }
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CPSC 421: Introduction to Theory of Computing
+    \hfill Winter Term 1 2018-19} }
+        \vspace{4mm}
+        \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+        \vspace{2mm}
+        \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+        \vspace{2mm}}
+    }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+%    {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%    {\bf Disclaimer}: {\it These notes have not been subjected to the
+%    usual scrutiny reserved for formal publications.  They may be distributed
+%    outside this class only with the permission of the Instructor.}
+%    \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+            \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+            \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\set}[1]{\left \{ #1 \right \}}
+\newcommand{\abs}[1]{\left | #1 \right |}
+\newcommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+\newcommand{\encoding}[1]{\left \langle #1 \right \rangle}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{34}{November 28}{Nicholas Harvey}{Kaitian Xie}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+\underline{Recall}: The set $R = \set{R_1, \ldots, R_k}$ is a \underline{f-monochromatic partition} if:
+
+\begin{itemize}
+    \item  each $R_i$ is a f-monochromatic rectangle
+    \item every $(x, y) \in X \times Y$ is contained in \underline{exactly one $R_i$}. $\abs{R} = k$.
+\end{itemize}
+
+\underline{Today}:
+
+\begin{definition}
+    The set $R = \set{R_1, \ldots, R_n}$ is \underline{a cover of the 1-entries} (by rectangle) if:
+
+    \begin{itemize}
+        \item each $R_i$ is a rectangle containing only 1's
+        \item each $(x, y) \in X \times Y$ with $f(x, y) = 1$ is contained in \underline{at least one $R_i$}.
+    \end{itemize}
+
+    So the $R_i$'s are \underline{not necessarily} disjoint.
+\end{definition}
+
+\underline{Note}: A cover of 1-entries can be smaller than a partition.
+
+\begin{definition}
+    $C^{\text{1-cover}}(f) = \min\set{\abs{R}: R \text{ is a cover of the 1-entries}}$ (you could also define $C^{\text{0-cover}}$ analogously, but it's the same as $C^{\text{1-cover}}(\neg f)$).
+\end{definition}
+
+\begin{claim}
+    $C^{\text{partition}}(f) \geq C^{\text{1-coover}}(f) + \underbrace{C^{\text{1-cover}}(\neg f)}_{\text{or } C^{\text{0-cover}}(f)}$
+\end{claim}
+
+\begin{proof}
+    Any f-monochromatic partition can be written as $\underbrace{\set{S_1, \ldots, S_k}}_{\text{1-rectangles}} \cup \underbrace{\set{T_1, \ldots, T_l}}_{\text{0-rectangles}}$. These cover the 1-entries/0-entries and they are disjoint.
+
+    \underline{Note}: $C^{\text{1-cover}}(f) \leq k, C^{\text{0-cover}}(f) \leq l$
+\end{proof}
+
+\underline{EXample}: $\neg DISJ$
+
+Define $R_i = \set{(x, y): i \in x \cap y} \; \forall i = 1, \ldots n$.
+
+\begin{claim}
+    $R = \set{R_1, \ldots, R_n}$ is a cover of the 1-entries.
+\end{claim}
+
+\begin{proof}
+    \begin{itemize}
+        \item $R_i = \set{x: i \in x} \times \set{y: i \in y}$ so it's a rectangle. Every $(x, y) \in R_i$ has $i \in x \cap y$, so not disjoint $\Rightarrow \neg DISJ(x, y) = 1$.
+        \item For any $(x, y)$ with $\neg DISJ(x, y)$, there exists $i \in x \cap y$, so $(x, y) \in R_i$.
+    \end{itemize}
+
+    So $C^{\text{1-cover}}(\neg DIST_n) \leq n$, $C^{\text{partition}}(DISJ_n) \geq 2^n + 1 \Rightarrow D(f) \geq \ceil{\log(C^{\text{partition}}(f))}$. So $C^{\text{1-cover}}(\neg DISJ) \leq n, C^{\text{partition}}(\neg DISJ) \geq 2^n + 1 \Rightarrow D(\neg DISJ) \geq n + 1$
+\end{proof}
+
+\begin{claim}
+    $N(f) = \ceil{\log_2{C^{\text{1-cover}}(f)}}$.
+\end{claim}
+
+\begin{proof}
+
+    $\leq$ direction:
+
+    1-entries $\C$ with $\abs{C} = C^{\text{1-cover}}(f)$. If $f(x, y) = 1$. Pierre finds a rectangle $R_i \in \C$ that contains $(x, y)$. Pierre writes the integer $i$ in the certificate. Alice accepts if $x \in Rows(R_i)$. Bob accepts if $y \in Columns(R_i)$. How many bits to write down $z$? $i \in \set{1, \ldots, \set{\C}}$. So writing $i$ takes $\ceil{\log_2{\abs{\C}}}$ bits.
+
+    $\geq$ direction:
+
+    For any certificate $z$ that Pierre could send, define $S_z \set{ x \in X: \text{ Alice accepts on input} x \text{ \& certificate } z}$, $T_z \set{ x \in X: \text{ Bob accepts on input} y \text{ \& certificate } z}$. Define $\C = \set{S_1 \times T_1, S_2 \times T_2, \ldots}$. This is a 1-cover with $\abs{\C} = 2$. Know $D(f) = \ceil{\lg(C^{\text{1-cover}}(f))}, C^{\text{partition}}(f) \geq C^{\text{1-cover}}(f), \ceil{C^{\text{1-cover}}(f)} = N(f)$.
+
+    \begin{corollary}
+        $D(f) \geq \ceil{\lg{C^{\text{parition}}}(f)} \geq \ceil{\lg{C^{\text{1-cover}}}(f)} = N(f)$. Also, $\underbrace{D(\neg f)}_{\text{or } D(f)} \geq N(\neg f)$.
+    \end{corollary}
+\end{proof}
+
+\end{document}
