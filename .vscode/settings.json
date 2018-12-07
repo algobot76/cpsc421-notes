@@ -3,12 +3,17 @@
   "latex-workshop.message.error.show": false,
   "latex-workshop.latex.recipes": [
     {
-      "name": "latex -> dvips -> ps2pdf",
-      "tools": ["latex", "dvips", "ps2pdf"]
+      "name": "latex -> bibtex -> latex -> dvips -> ps2pdf",
+      "tools": ["latex", "bibtex", "latex", "dvips", "ps2pdf"]
     }
   ],
 
   "latex-workshop.latex.tools": [
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"]
+    },
     {
       "name": "latex",
       "command": "latex",
