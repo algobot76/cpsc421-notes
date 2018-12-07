@@ -3,6 +3,8 @@
 
 \section*{Lecture 1: What is computation? Start of finite automata}
 
+% TOOD: refactor lect1
+
 \textbf{Exercises}:
 
 \begin{enumerate}
@@ -67,5 +69,94 @@ A problem is a mapping of strings to strings, e.g. for Ex. 3
       \end{cases}
     \end{aligned}
 \end{equation*}
+
+\section*{Lecture 2: Definition of finite automata}
+
+Why?
+
+\begin{itemize}
+    \item To study the \emph{languages} related to F.A.
+    \item
+  \begin{enumerate}
+    \item As a stepping-stone to richer computational models
+    \item Useful background for NLP and compilers
+    \item To understand regular expressions
+  \end{enumerate}
+\end{itemize}
+
+\textbf{Informal definition}: A computational machine for a decision problem on any input string, either:
+
+\begin{enumerate}
+    \item outputs Accept and halts
+    \item outputs Reject and halts
+    \item runs forever
+\end{enumerate}
+
+In case 1 we say that machine \emph{accepts} $w$. The language \emph{accepted by machine} $M$.
+
+\begin{equation*}
+    L = \set{w \in \Sigma^*: M \text{ accepts } w}
+\end{equation*}
+
+\textbf{Theme}: Understand relationship between:
+
+\begin{itemize}
+    \item classes of machines
+    \item classes of languages $\equiv$ classes of decision problems they can solve
+    \item and their properties
+\end{itemize}
+
+\textbf{Finite Automata}
+
+What is $L$ or $L(M)$?
+
+Is it:
+
+\begin{itemize}
+    \item $\set{w: \text{either $w$ ends in 1 or \# 0s after the last 1 is even}}$
+    \item $\{w: \text{$w$ contains a 1, and after the last 1, has even number of 0s}\}$
+\end{itemize}
+
+\begin{definition}
+    A finite automaton is a 5-tuple $M=(Q, \Sigma, \delta, q_0, F)$ where
+
+    \begin{itemize}
+        \item $Q$ is a finite set (set of states)
+        \item $\Sigma$ is a finite set (the alphabet)
+        \item $\delta: Q \times E \rightarrow Q$ (the transition function)
+        \item $q_0 \in Q$ (start state)
+        \item $F \in Q$ (the accepting state)
+    \end{itemize}
+\end{definition}
+
+
+\begin{definition}
+    A F.A. $M$ accepts input string $w \in \Sigma^*$ if there exists a sequence $r_0, r_1, r_2, \cdots, r_n \in Q$ s.t.
+
+    \begin{itemize}
+        \item $r_0 = q_0$
+        \item $r_i = \delta(r_{i-1}, w_i) \; \forall i = 1, \ldots, n$
+        \item $r_n \in F$
+    \end{itemize}
+
+    Think of $r_0, \ldots, r_n$ as the sequence of states visited during the machine's computation.
+
+    $L(M) = \{w \in \Sigma^*: M \text{ accepts } w\}$
+
+    \begin{itemize}
+        \item The language \underline{accepted} by $M$
+        \item The language \underline{decided} by $M$
+        \item The language \underline{recognized} by $M$
+    \end{itemize}
+
+\end{definition}
+
+$L = \set{11011, 110011, 1100011, 11000011, \ldots}$
+
+\textbf{Implicit Error States}: If $\delta$ is not fully specified, then we assume an implicit transition to an ``error state''.
+
+\begin{definition}
+    A \emph{regular language} is any language accepted by some Finite Automaton. The set of all regular languages is called the \emph{the class of regular languages}.
+ \end{definition}
 
 \backmatter
