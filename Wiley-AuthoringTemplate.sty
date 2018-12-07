@@ -14,7 +14,7 @@
 %\DeclareOption{number}{\xdef\@biboptions{numbers}}%
 %\DeclareOption{numbers}{\xdef\@biboptions{numbers}}%
 
-\bibliographystyle{plainnat}% this can be used both for numerical and authoryear citations.
+% \bibliographystyle{plainnat}% this can be used both for numerical and authoryear citations.
 
 \def\ttag#1{}
 \newdimen\hsizevalue%
@@ -138,8 +138,8 @@
 \ifParaList%
 \setlength{\leftmargin}{0pt}%
 \setlength{\itemindent}{1em}%
-\advance\itemindent by \labelwidth% 
-\advance\itemindent by \labelsep% 
+\advance\itemindent by \labelwidth%
+\advance\itemindent by \labelsep%
 \fi%
 \ifRoundPunctuation%
 \def\makelabel##1{\hss\llap{(##1)}}%
@@ -204,7 +204,7 @@
 %%
 \let\SL@initmakecaption\relax%
 %%
-\def\SL@margintext#1{{\showlabelsetlabel{\SL@prlabelname{#1}}}} 
+\def\SL@margintext#1{{\showlabelsetlabel{\SL@prlabelname{#1}}}}
 %%
 \def\SL@eqnrighttext#1{\rlap{\quad\ifthenelse{\equal{#1}{Missing}}{\iffigruleins\textcolor{red}{\LARGE EQN. Label Missing}\fi }{\SL@margintext{#1}}}}
 %%
@@ -569,11 +569,11 @@
     \begingroup
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
-      \leavevmode 
+      \leavevmode
       \advance\leftskip\@tempdima
       \hskip -\leftskip
-%\chaptocfont 
-#1\nobreak\hfil \nobreak\hbox 
+%\chaptocfont
+#1\nobreak\hfil \nobreak\hbox
 to\@pnumwidth{\hss #2}\par
       \penalty\@highpenalty
     \endgroup
@@ -582,7 +582,7 @@ to\@pnumwidth{\hss #2}\par
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\def\numbered{\setcounter{secnumdepth}{3}}% 
+\def\numbered{\setcounter{secnumdepth}{3}}%
 \def\unnumbered{\setcounter{secnumdepth}{0}}%
 \numbered%
 
@@ -644,7 +644,7 @@ to\@pnumwidth{\hss #2}\par
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{objectives}[1]%
                {\begingroup\parindent=0pt\parskip=0pt\leftskip=24pt%
-                \hbox{\rule{\textwidth}{1pt}}%  
+                \hbox{\rule{\textwidth}{1pt}}%
                 \removelastskip\nointerlineskip\vskip-6pt\vskip0pt\nointerlineskip%
 		\begin{itemize}
                 }%
@@ -778,7 +778,7 @@ to\@pnumwidth{\hss #2}\par
   \list{\csname\@itemitem\endcsname}%
        {\setlength{\labelsep}{6pt}%
         \setlength\leftmargin{6pt}%
-        \advance\leftmargin by \labelsep% 
+        \advance\leftmargin by \labelsep%
         \setlength\itemsep{0pt}
         \setlength{\partopsep}{0pt}%
         \setlength{\parsep}{0pt}%
@@ -928,7 +928,7 @@ to\@pnumwidth{\hss #2}\par
 \def\ftype@scheme{3}
 \newcounter{scheme}[chapter]
 \renewcommand\thescheme{\thechapter.\@arabic\c@scheme}%
-\newcommand\schemename{Scheme}% 
+\newcommand\schemename{Scheme}%
 \def\fnum@scheme{\schemename~\thescheme}%
 
 \long\def\Schemecaption#1{\begingroup%
@@ -1158,7 +1158,7 @@ however, may not be available in electronic format.
 #2
 Printed in the United States of America.\\
 
-10\ \ 9\ \ 8\ \ 7\ \ 6\ \ 5\ \  4\ \ 3\ \ 2\ \ 1 
+10\ \ 9\ \ 8\ \ 7\ \ 6\ \ 5\ \  4\ \ 3\ \ 2\ \ 1
 \vskip24pt
 \egroup\let\@badend\relax\endgroup}
 
@@ -1314,10 +1314,10 @@ Printed in the United States of America.\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%END -- DIAGLOGUE == DEVI (16/02/16)%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\def\ulntext#1{\underline{#1}}% 
-\def\dulntext#1{\underline{\underline{#1}}}% 
-\def\olntext#1{$\overline{#1}$}% 
-\def\stlntext#1{$\not{#1}$}% 
+\def\ulntext#1{\underline{#1}}%
+\def\dulntext#1{\underline{\underline{#1}}}%
+\def\olntext#1{$\overline{#1}$}%
+\def\stlntext#1{$\not{#1}$}%
 \def\code#1{\texttt{#1}}%
 \def\tt#1{\texttt{#1}}%
 \def\monotext#1{\texttt{#1}}%
@@ -1656,26 +1656,26 @@ Printed in the United States of America.\\
 
 %% Macros for Bibliography %%
 
-\@ifpackageloaded{natbib}{%
-\@namedef{thebibliography*}{\def\bibsection{}\thebibliography}
-\@namedef{endthebibliography*}{\endthebibliography}
-}
-{
-\@namedef{thebibliography*}{\def\refname{}\thebibliography}
-\@namedef{endthebibliography*}{\endthebibliography}
-}
+% \@ifpackageloaded{natbib}{%
+% \@namedef{thebibliography*}{\def\bibsection{}\thebibliography}
+% \@namedef{endthebibliography*}{\endthebibliography}
+% }
+% {
+% \@namedef{thebibliography*}{\def\refname{}\thebibliography}
+% \@namedef{endthebibliography*}{\endthebibliography}
+% }
 %
-\def\@bibtype{}
-\def\bibtype#1{\gdef\@bibtype{#1}}
+% \def\@bibtype{}
+% \def\bibtype#1{\gdef\@bibtype{#1}}
 %
 %\bibsep=0pt%
 %\bibhang=0pt%
-\def\bibfont{\reset@font\fontfamily{\rmdefault}\fontsize{9bp}{10.5}\selectfont}%  17Dec2016
+% \def\bibfont{\reset@font\fontfamily{\rmdefault}\fontsize{9bp}{10.5}\selectfont}%  17Dec2016
 %
-\DeclareTextFontCommand{\emph}{\itshape}%
+% \DeclareTextFontCommand{\emph}{\itshape}%
 %
-\newif\ifbackmatter%
-\renewcommand{\backmatter}{\global\backmattertrue}%
+% \newif\ifbackmatter%
+% \renewcommand{\backmatter}{\global\backmattertrue}%
 
 %\def\booktitle#1#2{\vbox to \vsize{\thispagestyle{empty}\vglue5pc\begin{center}\LARGE\bfseries#1\par\vskip3pc\Large\itshape#2\end{center}\vfill}\par\clearpage\thispagestyle{empty}}%
 
@@ -1696,7 +1696,7 @@ Printed in the United States of America.\\
 \def\aqueryinText{\reset@font\fontsize{10}{0}\selectfont\bfseries}%
 
 \newdimen\authhsize%
-\authhsize=32mm% 
+\authhsize=32mm%
 %%\advance\authhsize1.25in%
 
 \newcount\QueryCnt%
@@ -1852,11 +1852,11 @@ No query.\par%
 
 \def\halftitlepage{\thispagestyle{empty}
   \vspace*{2pc}%
-  {\parindent \z@ 
+  {\parindent \z@
     \interlinepenalty\@M
 \LARGE
 \hyphenpenalty10000
-\bfseries 
+\bfseries
 %\def\\ {\vskip6pt}
 \noindent\thetitle\vskip 1sp
 }
@@ -1869,11 +1869,11 @@ No query.\par%
 \vbox to\vsize{\vspace*{36pt}%
 \hrule height3pt
 \vskip2pc
-\parindent \z@ 
+\parindent \z@
 \interlinepenalty\@M
 \Huge
 \hyphenpenalty10000
-\bfseries%\titlefont 
+\bfseries%\titlefont
 \uppercase{\thetitle}\par
 \ifx\subtitle\empty\else
 \vbox{\vskip6pt\baselineskip22pt
