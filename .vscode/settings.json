@@ -1,0 +1,28 @@
+{
+  "latex-workshop.message.warning.show": false,
+  "latex-workshop.message.error.show": false,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latex -> dvips -> ps2pdf",
+      "tools": ["latex", "dvips", "ps2pdf"]
+    }
+  ],
+
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latex",
+      "command": "latex",
+      "args": ["-synctex=1", "-interaction=nonstopmode", "%DOC%"]
+    },
+    {
+      "name": "dvips",
+      "command": "dvips",
+      "args": ["%DOC%.dvi"]
+    },
+    {
+      "name": "ps2pdf",
+      "command": "ps2pdf",
+      "args": ["%DOC%.ps"]
+    }
+  ]
+}
