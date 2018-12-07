@@ -159,4 +159,68 @@ $L = \set{11011, 110011, 1100011, 11000011, \ldots}$
     A \emph{regular language} is any language accepted by some Finite Automaton. The set of all regular languages is called the \emph{the class of regular languages}.
 \end{definition}
 
+\section*{Lecture 3: Nondeterministic finite automata}
+
+\begin{definition}
+    A regular language is any language $L$ s.t. some finite automaton accepts $L$.
+\end{definition}
+
+We will study operations on the class of regular languages.
+
+For strings $x$, $y$ their concatenation is denoted $x \circ y$ or just $xy$.
+
+\begin{definition}
+    For languages $L_1$ and $L_2$
+    \begin{align*}
+        L_1 \circ L_2 &= \{x \circ y: x \in L_1 \text{ and } y \in L_2\}
+    \end{align*}
+\end{definition}
+
+If $L_1$ and $L_2$ are regular, is $L_1 \circ L_2$ also?
+
+$L_1 = \{Messi\}$
+
+$L_2 = \{Alba\}$
+
+$L_1 \circ L_2 = \{MessiAlba\}$
+
+\begin{unnumfigure}
+    \includegraphics[scale=0.4]{lect3_img1.eps}
+\end{unnumfigure}
+
+$M_3$ accepts $L_1 \circ L_2$ $\Rightarrow$ $L_1 \circ L_2$ is regular.
+
+\begin{definition}
+    A \emph{non-deterministic finite automaton} is a 5-tuple $M = (Q, \Sigma, \delta, q_0, F)$ s.t.
+
+    \begin{itemize}
+        \item $Q, \Sigma, q_0, F$ are the same
+        \item $\delta: Q \times (\Sigma \cup \{\epsilon\}) \rightarrow 2^Q$
+        \begin{itemize}
+            \item $\delta (q, s)$ is a subset of $Q$
+        \end{itemize}
+    \end{itemize}
+\end{definition}
+
+For a set $S$, $2^S$ is called the \emph{power set} of $S$. It contains all subsets of $S$.
+
+$2^{\set{a, b}} = \set{\emptyset, \set{a}, \set{b}, \set{a, b}}$
+
+\begin{definition}
+    The NFA $M$ accepts the string  $w = w_1w_2 \ldots$ if there exists a string $y = y_1y_2 \ldots y_m \in (\Sigma \cup \set{\epsilon})^*$  and a sequence $r0, r_1, \ldots r_m \in Q$ such that:
+
+    \begin{itemize}
+        \item $w = y_1 \circ y_2 \circ \cdots \circ y_m$
+        \item $r_0 = q_0$
+        \item $r_i \in \delta (r_{i-1}, y_i) \text{ for } i = 1, \cdots, m$
+        \item $r_m \in F$
+    \end{itemize}
+\end{definition}
+
+Input string: $w = 00$
+
+$y = \epsilon 00$, $r = q_0q_1q_2q_1$
+
+$\delta(q_0, \epsilon) = \set{q_1, q_3}$
+
 \backmatter
