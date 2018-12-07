@@ -1,6 +1,71 @@
 
 \chapter{Regular Languages}
 
-\section*{Lecture 1}
+\section*{Lecture 1: What is computation? Start of finite automata}
+
+\textbf{Exercises}:
+
+\begin{enumerate}
+    \item Sorting a list of names
+    \item Given a polynomial, find its roots
+    \item Given an integer, find its prime factors
+\end{enumerate}
+
+\textbf{Representation issues}: Encode input \& output
+
+\textbf{Generic representation}:
+
+\begin{definition}
+    An \emph{alphabet} is a finite non-empty set. Typically denoted $\Sigma$ and $\Gamma$ (e.g. ASCII, Unicode: $\Sigma = \{0, 1\}$).
+\end{definition}
+
+\begin{definition}
+    A \emph{string} is a finite sequence of zeros or more symbols from $\Sigma$ (e.g. text file, binary file).
+\end{definition}
+
+\begin{definition}
+    $\Sigma^*$ is a set of all strings over alphabet $\Sigma$ (so $\Sigma^*$ is infinitely big).
+\end{definition}
+
+A problem is a mapping of strings to strings, e.g. for Ex. 3
+
+\begin{verbatim}
+    f("b") = "2, 3"
+    f("30") = "2, 3, 5"
+    f("28mT") = "error"
+\end{verbatim}
+
+\emph{Notice}: It must be a function.
+
+\begin{definition}
+    A \emph{decision problem} is a problem whose input is yes/no (accept/reject). E.g.
+
+    \begin{enumerate}
+        \item Is this list sorted?
+        \item Given integers $(x, y)$. does x has a prime factor less than $y$?
+
+        \begin{verbatim}
+            f("35, 4") = "reject"
+        \end{verbatim}
+    \end{enumerate}
+\end{definition}
+
+\textbf{Important concept}: Decision problem $\equiv$ set of strings for which the function outputs ``accept''.
+
+\begin{definition}
+    A set of strings is called \emph{language}, so any set $S \in \Sigma^*$ is a language. So decision problems $\equiv$ languages
+\end{definition}
+
+\begin{equation*}
+    \begin{aligned}
+      L &= \{S: s \text{ is a string of the form } s=\text{``p'' where p is a prime integer} \\
+      &\equiv \\
+      f(s) &=
+      \begin{cases}
+        \text{``accept''} & \text{if s = ``p'' and p is a prime integer} \\
+        \text{``reject''} & otherwise
+      \end{cases}
+    \end{aligned}
+\end{equation*}
 
 \backmatter
