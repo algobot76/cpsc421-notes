@@ -3,7 +3,7 @@
   "latex-workshop.message.error.show": false,
   "latex-workshop.latex.recipes": [
     {
-      "name": "latex -> bibtex -> latex -> dvips -> ps2pdf",
+      "name": "latex -> dvips -> ps2pdf",
       "tools": ["latex", "dvips", "ps2pdf"]
     }
   ],

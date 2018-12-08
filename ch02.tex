@@ -29,3 +29,72 @@ Hints:
   \item Need nondeterminism
   \item $L$ contains both $aabccc$ $(i = k)$ and $aabbc$ $(i = j)$
 \end{enumerate}
+
+\section*{Lecture 8: Context free grammars}
+
+\begin{equation*}
+    \text{Rules}
+    \left\{
+        \begin{array}{lr}
+            S \rightarrow Sa \\
+            S \rightarrow Sb \\
+            S \rightarrow \epsilon
+        \end{array}
+    \right.
+\end{equation*}
+
+or
+
+\begin{equation*}
+    S \rightarrow Sa|Sb|\epsilon
+\end{equation*}
+
+\begin{itemize}
+    \item Variables: $S$
+    \item Terminals: $a, b$
+    \item Start variable: $S$
+\end{itemize}
+
+LHS of a rule is a single variable. RHS of a rule is any string of variables and terminals (and $\epsilon$).
+
+Formally, suppose $u, v, w$ are strings of variables and terminals. Suppose there is a rule $A \rightarrow w$. From the string $uAv$, we can obtain $uwv$. We unite $uAv \xrightarrow[\text{``yields''}]{} uwv$. If $u_1 \rightarrow u_2 \rightarrow u_3 \rightarrow \cdots \rightarrow u_k$, then $u_1 \xrightarrow[\text{derives}]{*} u_k$.
+
+Given a grammar $G$, the language derived by the grammar is: $L(G) = \set{w \in \Sigma^*: \text{ start variable} \rightarrow w}$.
+
+In example, $S \rightarrow Sa \rightarrow Saa \rightarrow baa$, so $baa \in L(G)$ i.e. $S \xrightarrow[]{*} baa$.
+
+\begin{example}
+    $L = \{0^n1^n: n \geq 0\}$
+
+    \begin{itemize}
+        \item $S \rightarrow 0S1|\epsilon$
+        \item $S \rightarrow \epsilon$
+        \item $S \rightarrow 0S1 \rightarrow 01$
+        \item $S \rightarrow 0S1 \rightarrow 00S11 \rightarrow 0011$
+    \end{itemize}
+\end{example}
+
+A \emph{context-free language} is a language can be derived from a CFG.
+
+\begin{align*}
+  S
+  &\rightarrow NP \; VP \\
+  &\rightarrow Alaska \; VP \\
+  &\rightarrow Alaska \; Verb NP \\
+  &\rightarrow Alaska \; want \; NP\\
+  &\rightarrow Alaska \; want \; you
+\end{align*}
+
+Can I derive $0101$? No.
+
+\begin{align*}
+  E
+  &\rightarrow E + T \\
+  &\rightarrow T + T \\
+  &\rightarrow F + T \\
+  &\rightarrow 1 + T \\
+  &\rightarrow 1 + T \times F \\
+  &\rightarrow 1 + F \times F \\
+  &\rightarrow \cdots \\
+  &\rightarrow 1 + 2 \times 2
+\end{align*}
