@@ -1,0 +1,31 @@
+\chapter{Context-Free Languages}
+
+\section*{Lecture 7: Push down automata}
+
+\begin{itemize}
+    \item Only read input once, left to input
+    \item Only finite memory
+\end{itemize}
+
+Basically, NFA with infinite stack (DFA + stack).
+
+It turns out:
+\begin{itemize}
+    \item NFA + queue $\equiv$ Turing Machine
+    \item NFA + 2 stacks $\equiv$ Turing Machine
+\end{itemize}
+
+Transitions of NFA now become: If in state $q$ and see symbol $a$ (or $\epsilon$) in input, and see $\sigma$ on stop of stack (or ignore it) then pop it, push $c$ onto the stack (or $\epsilon$) goto state $q'$ (if no transition $\rightarrow$ implicit reject).
+
+\begin{example}[2.14 in text]
+    $L = \{0^n1^n: n \geq 0\}$ This is not regular.
+\end{example}
+
+Exercise: $L = \{a^i b^j c^k: i, j, k \geq 0 and i = j \text{ or } i = k\}$
+
+Hints:
+
+\begin{enumerate}
+  \item Need nondeterminism
+  \item $L$ contains both $aabccc$ $(i = k)$ and $aabbc$ $(i = j)$
+\end{enumerate}
