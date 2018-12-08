@@ -185,3 +185,83 @@ Let $f: X \times Y \rightarrow \set{0, 1}$ be a function.
 \end{corollary}
 
 $S$ is a fooling set. $\abs{S} = 2^n$. So $D(EQ_n) \geq \ceil{\lg_2(2^n + 1)} = n + 1$. Again Trivial Protocol gives $D(EQ_n) \leq n + 1$.
+
+\section*{Lecture 31: Disjointness, Reduction to Network Monitoring}
+
+Let $X = Y = \set{0, 1}^n, Z = \set{0, 1}$.
+
+\begin{definition}
+    GTE: $X \times Y \rightarrow Z$ by
+
+    \begin{dmath*}
+        GTE(x, y) = \begin{cases}
+            1, \text{if } x \geq y \text{(when viewed as a n-bit binary integer)} \\
+            0, \text{otherwise}
+        \end{cases}
+    \end{dmath*}
+\end{definition}
+
+Communication Matrix: for $n = 2$ (on slides).
+
+$S = \set{(x, x): x \in \set{0, 1}^n}$ ``the diagonal''
+
+\emph{Claim}: $S$ is a fooling set.
+
+\begin{proof}
+    Consider $(x, x)$ and $(x', x') \in S$ (where $x \neq x'$).
+
+    \begin{itemize}
+        \item Note that $GTE(x, \underbrace{x}_{= y}) = \underbrace{1}_{Z} = GTE(x', \underbrace{x'}_{= y'})$
+        \item Is it true that $GTE(x', x) \neq 1$ or $GTE(x, x') \neq 1$?
+
+        \begin{itemize}
+            \item If $x < x'$ then $GTE(x, x') = 0$.
+            \item IF $x > x'$ then $GTE(x', x) = 0$.
+        \end{itemize}
+    \end{itemize}
+\end{proof}
+
+\begin{corollary}
+    \begin{itemize}
+        \item $D(GTE) \geq 3 = \ceil{\lg_2(4 + 1)}$
+        \item $D(GTE) \geq \ceil{\lg_2(\abs{S} + 1)} = \ceil{\lg_2(2^n + 1)} = n + 1$
+        \item $D(GTE_n) \leq n + 1$ by Trivial protocol
+    \end{itemize}
+\end{corollary}
+
+\emph{Disjointness}: Let $u = \set{1, \ldots, n}$ Let $X = Y = 2^u$ (set of all subsets of $u$) For sets $x \in X, y \in Y$,
+
+\begin{dmath*}
+    DIST_n(x, y) =
+    \begin{cases}
+        1, \underbrace{\text{(if $x$ and $y$ are disjoint)}}_{x \cap y = \emptyset} \\
+        0, \text{otherwise}
+    \end{cases}
+\end{dmath*}
+
+$S = \set{(A, \overline{A}): A \subseteq U}$ ``the other diagonal'' $\abs{S} = 2^n$.
+
+\emph{Claim}: $S$ is a fooling set.
+
+\begin{proof}
+    Consider $(x, \overline{x})$ and $(x', \overline{x'}) \in S$ (where $x \neq x'$).
+
+    \begin{itemize}
+        \item Note $DIST(x, \overline{x}) = 1 = DIST(x', \overline{x'})$.
+        \item Case 1: $x$ is not a subset of $x'$. Then $\exists i \in x \setminus x'$, so $i \in x \cap \overline{x'}$. So $DIST(x, \overline{x'}) = 0$.
+        \item Case 2: $x'$ is not a subset of $x$. Symmetric!
+        \item Case 3: If neither 1 nor 2 holds then $x \subseteq x'$ and $x' \subseteq x$, so $x = x'$.
+    \end{itemize}
+\end{proof}
+
+\begin{corollary}
+    $D(DIST_n) \geq \ceil{\lg_2(\abs{S} + 1)} = \ceil{\lg_2(2^n + 1)} = n + 1$. Again $D(DIST_n) \leq n + 1$ by Trivial protocol.
+\end{corollary}
+
+\begin{theorem}
+    Any algorithm for Net Man uses $\geq n$ bits of space.
+\end{theorem}
+
+\begin{proof}
+    Reduction $DIST_n \leq y$ Net Man. How can we use Net Man algorithm to solve disjointness? Suppose $DIST(A, B) = 1, $ i.e. $A \cap B = \emptyset$, then the most popular IP address has one hit. $DIST(A, B) = 0, $ i.e. $A \cap B \neq \emptyset$, then there is some IP address with 2 hits. So they can solve $DIST$ using $k$ bits of communication. So $k + 1 \geq D(DIST_n) \geq n + 1$. So $k \geq n$.
+\end{proof}
