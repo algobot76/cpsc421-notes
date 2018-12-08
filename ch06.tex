@@ -174,3 +174,50 @@ Does anything satisfy the definition? Amazingly, yes!
 \end{proof}
 
 The sort reduction we use in showing $A \leq_{P} B$ is called a ``Karp reudction'' or a ``polytime mapping problem''. Another type of reduction. more analogous to Turing-reductions, would be ``Use subroutine for $B$ a polynomial number of times to solve $A$''. Those are called ``Cook reductions''. (Possibly appearing in Asst 6 $\dots$).
+
+\section*{Lecture 23: NP-completeness of Clique}
+
+\begin{theorem}[Cook-Levin]
+    SAT is NP-complete.
+\end{theorem}
+
+\begin{corollary}
+    3SAT is NP-complete.
+\end{corollary}
+
+Today: CLIQUE is NP-complete.
+
+Set $A = 3SAT$, $B = CLIQUE$, use Sipser 7.36. Need to show $CLIQUE \in NP$ and $3SAT \leq_{P} CLIQUE$.
+
+$CLIQUE = \set{\encoding{G, k} : G \text{has a clique of size } \geq k}$
+
+\emph{Claim}: $CLIQUE \in NP$.
+
+Easy: a verifier checks if $y$ is a description of a clique of size $k$.
+
+\begin{theorem}[Sipser 7.32]
+    $3SAT \leq_{P} CLIQUE$.
+\end{theorem}
+
+Need to find $f : \Sigma^* \rightarrow \Sigma^*$, polytime computable, s.t. $f(x) \in CLIQUE \Leftrightarrow x \in 3SAT$.
+
+Description of $f$: On input $x$
+
+\begin{enumerate}
+    \item If $x$ not $\encoding{\emptyset}$, output $\epsilon$
+    \item Otherwise, let $k = \#$ clauses of $\emptyset$.
+    \item Let $G$ be graph described on slide, output $\encoding{G, k}$.
+\end{enumerate}
+
+\emph{Claim}: This gives a clique of size $k$.
+
+\begin{proof}
+    Obviously, has size $k$. Just need to check if necessary edges exist. (They are intergroup edges.) An edge would only fail to exist if endpoints labelled $x_i$ and $\overline{x_i}$. But only picked vertices whose labels are true literals. Can't have both $x_i$ and $\overline{x_i}$ true.
+\end{proof}
+
+So we have shown there is a polytime computable $f$ s.t.
+
+\begin{enumerate}
+    \item $x \in 3SAT$ maps to $\encoding{G, k}$ s.t. max clique size in $G = k$
+    \item  $x \notin 3SAT$ $\ldots$ s.t. max clique size $G = k - 1$.
+\end{enumerate}
