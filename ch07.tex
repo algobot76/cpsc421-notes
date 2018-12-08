@@ -137,4 +137,51 @@ What is $D(EQ_2)$? The slide tells use $D(EQ_2) \leq 40$. Second slide tells us 
     $C^{partition}(f) \underbrace{\min}_{\text{protocol tree } T} \abs{\# \text{ of leaves in } T}$.
 \end{corollary}
 
+\section*{Lecture 30: Tight analysis of EQ, Fooling sets}
 
+\emph{Recall}: For any binary tree $T$, \# leaves of $T \leq 2^{depth(T)}$.
+
+\begin{corollary}
+    For any protocol tree $T$, $C^{parition}(f) \leq \#$ leaves of $T \leq 2^{depth(T)}$.
+\end{corollary}
+
+Taking log: $\log_2C^{parition}(f) \leq depth(T)$. Letting $T$ be the minimum-depth protocol tree computing $f$,
+
+\begin{dmath*}
+    \underbrace{\log_2C^{parition}(f)}_{\text{can take ceiling ``for free''}} \leq \underbrace{\min \set{depth(T): \text{protocol tree } T \text{ for } f} = D(f)}_{\text{this is an integer}}
+\end{dmath*}
+
+\emph{Claim}: $C^{partition}(EQ_2) \geq 5$.
+
+$\Rightarrow \ceil{\lg_2 C^{parition}(EQ_2)} \geq \ceil{\lg_2 5} = 3$. Using claim: $D(EQ_2) \geq 3$. We already saw $D(EQ_2) \leq 3$, Trivial Protocol so $D(EQ_2) = 3$ i.e. Trivial Protocol is optimal. Consider a Trivial Protocol for $EQ_2$
+
+Let $f: X \times Y \rightarrow \set{0, 1}$ be a function.
+
+\begin{definition}
+    Let $S$ be a subset of $X \times Y$. Suppose:
+
+    \begin{itemize}
+        \item all points $(x, y) \in S$ have the same value $f(x, y) = Z$.
+        \item for any distinct points $(x, y)$ and $(x', y')$ in $S$, either $f(x, y') \neq Z$ or $f(x', y) \neq Z$.
+    \end{itemize}
+
+    Then $S$ is called a \emph{fooling set} for $f$.
+\end{definition}
+
+\begin{example}
+    With $EQ_2$, the diagonal entires are a fooling set.
+
+    \emph{Observation 1}: Any two entries of a fooling set must lie in distinct rows \& columns. (e.g. if $x = x'$ then $f(x, y') = f(x', y')$, so it doesn't work).
+
+    \emph{Observation 2}: Any two elements of a fooling set cannot lie in the same monochromatic rectangle.
+\end{example}
+
+\begin{corollary}
+    If $f$ has a fooling set of size $k$, then any $f$-monochromatic partition needs $\geq k$ rectangles, even just to cover the $z$-entries. And one more rectangle to cover the non-$z$-entries. So $C^{partition}(f) \geq k + 1$ (assuming there is a non-$z$-entry).
+\end{corollary}
+
+\begin{corollary}
+    If $S$ is a fooling set with $\abs{S} = u$, then $D(f) \geq \ceil{\lg_2(k + 1)}$.
+\end{corollary}
+
+$S$ is a fooling set. $\abs{S} = 2^n$. So $D(EQ_n) \geq \ceil{\lg_2(2^n + 1)} = n + 1$. Again Trivial Protocol gives $D(EQ_n) \leq n + 1$.
