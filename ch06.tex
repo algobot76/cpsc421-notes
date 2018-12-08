@@ -1,0 +1,30 @@
+\chapter{Time Complexity}
+
+\section*{Lecture 19: Definition of P, EXP}
+
+\begin{definition}
+    The running time of a (deterministic) TM is a function $f:\N \rightarrow \N$ given by $f(n) = \max\limits_{\substack{x \in \Sigma^* \\ \abs{x} = n}}^{}$ (\# of steps of $M$ on input $x$).
+\end{definition}
+
+
+Typically we assume $M$ is a decider now.
+
+A class of languages defined by some resource constraint is called a \emph{complexity class}.
+
+\begin{definition}
+    \begin{equation*}
+        TIME(t(n)) = \{\text{language } L : \text{ there exists a TM with running time } O(t(n))\}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    $P = \bigcup\limits_{c>0}^{} TIME(n^c)$
+\end{definition}
+
+\begin{definition}
+    $EXP = \bigcup\limits_{k \geq 0} TIME(2^{n^k})$ or $EXPTIME$
+\end{definition}
+
+\begin{equation*}
+    3COLORMAP \in TIME(4^n) \subseteq EXP
+\end{equation*}
