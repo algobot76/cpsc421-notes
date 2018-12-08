@@ -221,3 +221,96 @@ So we have shown there is a polytime computable $f$ s.t.
     \item $x \in 3SAT$ maps to $\encoding{G, k}$ s.t. max clique size in $G = k$
     \item  $x \notin 3SAT$ $\ldots$ s.t. max clique size $G = k - 1$.
 \end{enumerate}
+
+\section*{Lecture 24: NP-completeness of Vertex Cover}
+
+Let $H(V, E)$ be a graph.
+
+\begin{definition}
+     A \underline{vertex cover} in $H$ is a set $C \subseteq V$ s.t. $\forall \set{u, v} \in E$, either $u$ or $v$ (or both) is in $C$.
+\end{definition}
+
+\begin{definition}
+    $VC = \set{\encoding{H, t} : H \text{ is a graph containing a vertex cover of size } \leq t}$
+\end{definition}
+
+\begin{theorem}
+    $VC$ is NP-hard.
+\end{theorem}
+
+Textbook shows $3SAT \leq_{P} VC$. We will show $CLIQUE \leq_{P} VC$.
+
+Let $G = (V, E)$ be a graph.
+
+\begin{definition}
+    The \emph{complement} $\overline{G} = (V, \overline{E})$, $E = \set{uv : uv \notin E}$.
+\end{definition}
+
+\emph{Claim}: $U$ is clique in $G$ $\Leftrightarrow$ $V \setminus U$ is a vertex cover in $\overline{G}$. $= \overline{U}$.
+
+\begin{proof}
+    $\overline{U}$ is a vertex cover in $\overline{G}$ $\Leftrightarrow$ for every $uv \in \overline{E}$ at least one of $uv \in \overline{U}$ $\Leftrightarrow$ $\forall uv \in E$, it is \emph{not} the case that \emph{both} $u,v \in U$ $\Leftrightarrow$ there do not exists $u,v \in U$ s.t. $uv \notin E$ $\Leftrightarrow$ $U$ is a clique in $G$.
+\end{proof}
+
+\begin{corollary}
+    $G$ has a clique of size $\geq k$ $\Leftrightarrow$ $\overline{G}$ has a vertex cover of size $\leq n-k$, where $n = \abs{V}$.
+\end{corollary}
+
+Reduction $CLIQUE \leq_{P} VC$: need to define polytime computable $f$ s.t. $x \in CLIQUE \Leftrightarrow f(x) \in VC$.
+
+Code for $f$: on input $x$:
+
+\begin{enumerate}
+    \item if $x$ not of form $\encoding{G, k}$.
+    \item output some $y \notin VC$ (for example $y = x$ or $x = \epsilon$).
+    \item otherwise compute $\overline{G}$ output $\encoding{\overline{G}, n-k}$.
+\end{enumerate}
+
+\emph{Note}: Clearly runs in polynomial time.
+
+\emph{Claim}: $f$ works
+
+If $\encoding{G, k} \in CLIQUE$, then by corollary, $\overline{G}$ has a v.c. of size $\leq n-k$, so $\encoding{\overline{G}, n-k}$ in $VC$.
+
+If $\encoding{G, k} \notin CLIQUE$, the $G$ has no clique of size $k$. By corollary, $\overline{G}$ has no v.c. of size $n-k$, so $\encoding{\overline{G}, n-k} \notin VC$.
+
+Let $H = (V, E)$ ba a graph.
+
+\begin{definition}
+    A set $U \subseteq V$ is called an \underline{independent set} if $\set{u, v} \notin E \; \forall u, v \in U$.
+\end{definition}
+
+\begin{theorem}
+    Let $INDSET$ is NP-hard.
+\end{theorem}
+
+\begin{proof}
+    We will show $CLIQUE \leq_{P} INDSET$. Main idea: $U$ is a clique in $G$ $\Leftrightarrow$ $U$ is an indep set in $\overline{G}$
+
+  % TODO: reduction
+\end{proof}
+
+\begin{theorem}[Cook-Levin]
+     $SAT$ is NP-hard.
+\end{theorem}
+
+\emph{Claim}: $SAT \in NP$.
+
+\begin{corollary}
+    $SAT$ is NP-complete.
+\end{corollary}
+
+\emph{Proof ideas}: Think boolean formula $\approx$ boolean circuit.
+
+Need to show $\forall A \in NP$, $A \leq_{P} SAT$.
+
+\begin{itemize}
+    \item $\forall A \in NP$: means there exists a NTM $M$ running in polynomial time that decides $A$.
+    \item $A \leq_{P} SAT$: means covert $M$ to a boolean formula.
+\end{itemize}
+
+Familiar idea from 121: Given a \emph{deterministic TM} (i.e. some software) can build a circuit $f$ s.t. $M$ accepts input $x$ $\Leftrightarrow$ $f(x)$ evaluates to true.
+
+Idea \#1: Similar idea works even with nondeterminism. Given a NTM $M$, and on input $w \in \set{0, 1}^*$ can construct a Boolean formula $\emptyset$ s.t. there exists nondeterministic choices causing $M$ to accept $w$ $\Leftrightarrow$ there exists input $x$ s.t. $\emptyset(x) =$ True $\Leftrightarrow$ $\emptyset$ is satisfiable
+
+Idea \#2: Use Configurations !!
