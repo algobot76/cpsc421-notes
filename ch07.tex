@@ -128,13 +128,13 @@ What is $D(EQ_2)$? The slide tells use $D(EQ_2) \leq 40$. Second slide tells us 
 \end{definition}
 
 \begin{definition}
-    $C^{partition}(f) = \min \set{\abs{R}: R \text{ is a f-monochromatic partition}}$.
+    $C^{\text{partition}}(f) = \min \set{\abs{R}: R \text{ is a f-monochromatic partition}}$.
 \end{definition}
 
 \emph{Claim}: For any protocol tree $T$, the rectangles $\set{R_v, v \text{ is a leaf in } T}$ are a f-monochromatic partition.
 
 \begin{corollary}
-    $C^{partition}(f) \underbrace{\min}_{\text{protocol tree } T} \abs{\# \text{ of leaves in } T}$.
+    $C^{text{partition}}(f) \underbrace{\min}_{\text{protocol tree } T} \abs{\# \text{ of leaves in } T}$.
 \end{corollary}
 
 \section*{Lecture 30: Tight analysis of EQ, Fooling sets}
@@ -151,7 +151,7 @@ Taking log: $\log_2C^{parition}(f) \leq depth(T)$. Letting $T$ be the minimum-de
     \underbrace{\log_2C^{parition}(f)}_{\text{can take ceiling ``for free''}} \leq \underbrace{\min \set{depth(T): \text{protocol tree } T \text{ for } f} = D(f)}_{\text{this is an integer}}
 \end{dmath*}
 
-\emph{Claim}: $C^{partition}(EQ_2) \geq 5$.
+\emph{Claim}: $C^{text{partition}}(EQ_2) \geq 5$.
 
 $\Rightarrow \ceil{\lg_2 C^{parition}(EQ_2)} \geq \ceil{\lg_2 5} = 3$. Using claim: $D(EQ_2) \geq 3$. We already saw $D(EQ_2) \leq 3$, Trivial Protocol so $D(EQ_2) = 3$ i.e. Trivial Protocol is optimal. Consider a Trivial Protocol for $EQ_2$
 
@@ -177,7 +177,7 @@ Let $f: X \times Y \rightarrow \set{0, 1}$ be a function.
 \end{example}
 
 \begin{corollary}
-    If $f$ has a fooling set of size $k$, then any $f$-monochromatic partition needs $\geq k$ rectangles, even just to cover the $z$-entries. And one more rectangle to cover the non-$z$-entries. So $C^{partition}(f) \geq k + 1$ (assuming there is a non-$z$-entry).
+    If $f$ has a fooling set of size $k$, then any $f$-monochromatic partition needs $\geq k$ rectangles, even just to cover the $z$-entries. And one more rectangle to cover the non-$z$-entries. So $C^{text{partition}}(f) \geq k + 1$ (assuming there is a non-$z$-entry).
 \end{corollary}
 
 \begin{corollary}
@@ -367,3 +367,93 @@ Pierre creates certificate $z = (i, x_i)$, where $i \in \set{1, \ldots, n}$ is a
         2^n + 1 = l + 1 \leq D(EQ_l) \leq D(FM)
     \end{equation*}
 \end{proof}
+
+\section*{Lecture 34: Nondeterminism and Covers}
+
+\emph{Recall}: The set $R = \set{R_1, \ldots, R_k}$ is a \emph{f-monochromatic partition} if:
+
+\begin{itemize}
+    \item  each $R_i$ is a f-monochromatic rectangle
+    \item every $(x, y) \in X \times Y$ is contained in \underline{exactly one $R_i$}. $\abs{R} = k$.
+\end{itemize}
+
+\emph{Today}:
+
+\begin{definition}
+    The set $R = \set{R_1, \ldots, R_n}$ is \emph{a cover of the 1-entries} (by rectangle) if:
+
+    \begin{itemize}
+        \item each $R_i$ is a rectangle containing only 1's
+        \item each $(x, y) \in X \times Y$ with $f(x, y) = 1$ is contained in \emph{at least one $R_i$}.
+    \end{itemize}
+
+    So the $R_i$'s are \emph{not necessarily} disjoint.
+\end{definition}
+
+\emph{Note}: A cover of 1-entries can be smaller than a partition.
+
+\begin{definition}
+    $C^{\text{1-cover}}(f) = \min\set{\abs{R}: R \text{ is a cover of the 1-entries}}$ (you could also define $C^{\text{0-cover}}$ analogously, but it's the same as $C^{\text{1-cover}}(\neg f)$).
+\end{definition}
+
+\emph{Claim}: $C^{\text{partition}}(f) \geq C^{\text{1-coover}}(f) + \underbrace{C^{\text{1-cover}}(\neg f)}_{\text{or } C^{\text{0-cover}}(f)}$
+
+\begin{proof}
+    Any f-monochromatic partition can be written as
+
+    \begin{equation*}
+        \underbrace{\set{S_1, \ldots, S_k}}_{\text{1-rectangles}} \cup \underbrace{\set{T_1, \ldots, T_l}}_{\text{0-rectangles}}.
+    \end{equation*}
+
+    These cover the 1-entries/0-entries and they are disjoint.
+
+    \underline{Note}: $C^{\text{1-cover}}(f) \leq k, C^{\text{0-cover}}(f) \leq l$
+\end{proof}
+
+\begin{example}
+    $\neg DISJ$
+\end{example}
+
+Define $R_i = \set{(x, y): i \in x \cap y} \; \forall i = 1, \ldots n$.
+
+\emph{Claim}: $R = \set{R_1, \ldots, R_n}$ is a cover of the 1-entries.
+
+\begin{proof}
+    \begin{itemize}
+        \item $R_i = \set{x: i \in x} \times \set{y: i \in y}$ so it's a rectangle. Every $(x, y) \in R_i$ has $i \in x \cap y$, so not disjoint $\Rightarrow \neg DISJ(x, y) = 1$.
+        \item For any $(x, y)$ with $\neg DISJ(x, y)$, there exists $i \in x \cap y$, so $(x, y) \in R_i$.
+    \end{itemize}
+
+    So $C^{\text{1-cover}}(\neg DIST_n) \leq n$, $C^{\text{partition}}(DISJ_n) \geq 2^n + 1 \Rightarrow D(f) \geq \ceil{\log(C^{\text{partition}}(f))}$. So $C^{\text{1-cover}}(\neg DISJ) \leq n, C^{\text{partition}}(\neg DISJ) \geq 2^n + 1 \Rightarrow D(\neg DISJ) \geq n + 1$
+\end{proof}
+
+\emph{Claim}: $N(f) = \ceil{\log_2{C^{\text{1-cover}}(f)}}$.
+
+\begin{proof}
+    $\leq$ direction:
+
+    1-entries $\C$ with $\abs{C} = C^{\text{1-cover}}(f)$. If $f(x, y) = 1$. Pierre finds a rectangle $R_i \in \C$ that contains $(x, y)$. Pierre writes the integer $i$ in the certificate. Alice accepts if $x \in Rows(R_i)$. Bob accepts if $y \in Columns(R_i)$. How many bits to write down $z$? $i \in \set{1, \ldots, \set{\C}}$. So writing $i$ takes $\ceil{\log_2{\abs{\C}}}$ bits.
+
+    $\geq$ direction:
+
+    For any certificate $z$ that Pierre could send, define
+
+    \begin{equation*}
+        S_z \set{ x \in X: \text{ Alice accepts on input} x \text{ \& certificate } z}
+    \end{equation*}
+
+    \begin{itemize}
+        \item $S_z \set{ x \in X: \text{ Alice accepts on input} x \text{ \& certificate } z}$
+        \item $T_z \set{ x \in X: \text{ Bob accepts on input} y \text{ \& certificate } z}$
+    \end{itemize}
+
+    Define $\C = \set{S_1 \times T_1, S_2 \times T_2, \ldots}$. This is a 1-cover with $\abs{\C} = 2$. Know $D(f) = \ceil{\lg(C^{\text{1-cover}}(f))}, C^{\text{partition}}(f) \geq C^{\text{1-cover}}(f), \ceil{C^{\text{1-cover}}(f)} = N(f)$.
+\end{proof}
+
+\begin{corollary}
+    $D(f) \geq \ceil{\lg{C^{\text{parition}}}(f)} \geq \ceil{\lg{C^{\text{1-cover}}}(f)} = N(f)$. Also,
+
+    \begin{equation*}
+        \underbrace{D(\neg f)}_{\text{or } D(f)} \geq N(\neg f)
+    \end{equation*}
+\end{corollary}
