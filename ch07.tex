@@ -265,3 +265,37 @@ $S = \set{(A, \overline{A}): A \subseteq U}$ ``the other diagonal'' $\abs{S} = 2
 \begin{proof}
     Reduction $DIST_n \leq y$ Net Man. How can we use Net Man algorithm to solve disjointness? Suppose $DIST(A, B) = 1, $ i.e. $A \cap B = \emptyset$, then the most popular IP address has one hit. $DIST(A, B) = 0, $ i.e. $A \cap B \neq \emptyset$, then there is some IP address with 2 hits. So they can solve $DIST$ using $k$ bits of communication. So $k + 1 \geq D(DIST_n) \geq n + 1$. So $k \geq n$.
 \end{proof}
+
+\section*{Lecture 32: Nondeterministic Communication Complexity}
+
+\emph{Model}: Alice \& Bob agree beforehand on a protocol. If $f(x, y) = 1$, then Pierre should be able to create a certificate $z$ that forces Alice \& Bob both to accept. If $f(x, y) = 0$, then protocol should ensure at least one of Alice \& Bob rejects, even if Pierre tries to fool then with a bogus certificate.
+
+\emph{Note}: The decisions of Alice \& Bob need not agree.
+
+\begin{equation*}
+    N(f) = \min (\text{length of certificate}) \text{ over all nondeterministic protocols for } f \tag{nondeterministic communication complexity}
+\end{equation*}
+
+\begin{example}
+    $N(\neg DISJ) \leq \log(n)$
+
+    \emph{Solution 1}: Pierre can compute $x \cap y$. Pierre lets $z$ be a bitvector of length $n$ representing $x \cap y$. Alice accepts if $z \leq x$ and $z$ non-empty. Bob accepts if $z \leq y$ and $z$ non-empty. This shows $N(\neg DISJ) \leq n$.
+
+    \emph{Solution 2}: If $x \cap y \neq \emptyset$, Pierre can pick any $i \in x \cap y$, and let $z$ be binary encoding of $i$. Alice accepts if $i \in x$. Bob accepts if $i \in y$. This shows $N(\neg DISJ) \leq \log(n)$.
+\end{example}
+
+Last time: $D(DISJ) \geq n + 1$
+
+What is $D(\neg DISJ)$? $\geq n + 1$ by Fooling set argument. $\leq n + 1$ by Trivial protocol.
+
+\emph{Claim}: $D(f) = D(\neq f) \; \forall f$
+
+\emph{Question}: Prove $N(\neg EQ) \leq O(\log(n))$.
+
+Pierre creates certificate $z = (i, x_i)$, where $i \in \set{1, \ldots, n}$ is any index where $x_i \neq y_i$. Alice accepts if $x_i = \hat{x_i}$. Bob accepts if $y_i \neq \hat{x_i}$. This shows $N(\neg EQ) \leq \lg(n) + 1$. Before: $D(EQ) = n + 1 = D(\neg EQ)$.
+
+\emph{Useful fact}: Let $S$ be a fooling set  where $f(x, y) = 1, \forall (x, y) \in S$. Then $N(f) \geq \ceil(\lg_2(\abs{S})))$
+
+\begin{example}
+    $N(EQ) \geq n$ (our fooling set, the diagonal, had size $2^n$)
+\end{example}
