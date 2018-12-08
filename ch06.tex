@@ -72,9 +72,42 @@ Why? Because $P \neq EXP$. It is believed that $P \neq NP \neq EXP$.
     The following are equivalent:
 
     \begin{enumerate}
-      \item $L \in NP$
-      \item There exists a deterministic, polynomial time TM V and a constant $c$, such that $L = \set{x \in \Sigma^* \; \exists y \in \Sigma^* \text{ such that } \abs{y} \leq \abs{x}^c \text{ and } V \text{ accepts } (x, y)}$
+        \item $L \in NP$
+        \item There exists a deterministic, polynomial time TM V and a constant $c$, such that $L = \set{x \in \Sigma^* \; \exists y \in \Sigma^* \text{ such that } \abs{y} \leq \abs{x}^c \text{ and } V \text{ accepts } (x, y)}$
     \end{enumerate}
 \end{theorem}
 
 $V$ is called a ``verifier''. $y$ is called a ``certificate''.
+
+\section*{Lecture 21: Polytime Reductions, 2 Definitions of NP, SAT}
+
+\begin{equation*}
+    L = \set{x : \exists y, |y| \leq \abs{x}^c, V \text{ accepts } x, y}
+\end{equation*}
+
+Must show:
+
+\begin{enumerate}
+    \item If $G$ is 3-colourable, then $\exists y$ s.t. $V$ accepts $x, y$, y should be a valid 3-colouring.
+    \item If $G$ is \underline{not} 3-colourable, then $\forall y$, $V$ will not accept $x, y$.
+    \item $V$ runs in polynomial. Runtime is $O(\abs{V} + \abs{E})$ in our example. + decoding time, which is polynomial in input size.
+\end{enumerate}
+
+Runtime of $M$ is, let $n = \abs{x}$: $\underbrace{(2^{n^c})}_{\text{if } \abs{\Sigma} = 2} \cdot \underbrace{(\text{runtime of } V \text{ on input } x, y)}_{= (\abs{x} + \abs{y})^k \leq (2n^c)^k} = O(2^{n^{c+1}})$. Otherwise, if $\abs{\Sigma} \leq d$, it would be $d^{n^c} = 2^{(\log_2{d})n^c} = O(2^{n^{c+1}})$
+
+\begin{definition}
+    A function $f : \Sigma^* \rightarrow \Sigma^*$ is \emph{polytime computable} if there exists a \textsf{TM} $M$ that has $x$ as input, runs for time $poly(\abs{x})$, and halts with $f(x)$ written on the tape.
+\end{definition}
+
+\begin{definition}
+    $f$ is a polytime reduction from $A$ to $B$ if:
+
+    \begin{enumerate}
+        \item $f(A) \subseteq B$
+        \item $f(\overline{A}) \subseteq \overline{B}$
+        \item $f$ is a polytime computable function.
+    \end{enumerate}
+\end{definition}
+
+Notation: $A \leq_{P} B$.
+
