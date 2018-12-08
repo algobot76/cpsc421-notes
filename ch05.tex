@@ -50,3 +50,76 @@ Recall:
     If it was recognizable, Claim should imply $A_{\text{TM}}$ is decidable!
 \end{proof}
 
+\section*{Lecture 18: More reductions}
+
+\begin{equation*}
+    E_{TM} = \{\langle N \rangle : N \text{ is a TM s.t. } L(N) = \emptyset\}
+\end{equation*}
+
+\begin{theorem}[Sipser 5.1]
+    $E_{TM}$ is undecidable.
+\end{theorem}
+
+\begin{proof}
+    We know $A_{\text{TM}}$ is undecidable. We want to prove $A_{\text{TM}} \leq_{T} E_{TM}$. Then we can conclude that $E_{\text{TM}}$ is undecidable.
+    How to do reduction? Assume that $R$ is a (hypothetical) TM solving $E_{\text{TM}}$. We must somehow construct a TM $S$ that decides $A_{TM}$. $A_{TM} = \{\encoding{M, w}: M \text{ accepts } w\}$.
+
+    \emph{Design of $S$}:
+
+    On input $X$:
+    \begin{enumerate}
+        \item If $x$ is not of form $\encoding{M, w}$, reject.
+        \item Construct description of $N$ like this:
+
+        Let $N$ be TM: On input $y$, (ignore input), simulate $M$ on input $w$:
+
+        \begin{enumerate}
+            \item If $M$ accepts $N$ accepts.
+            \item If $M$ rejects $N$ rejects.
+        \end{enumerate}
+
+        \item Run $R$ on input $\encoding{N}$.
+        \item Accept if $R$ rejects; reject if $R$ accepts.
+    \end{enumerate}
+
+    $S$ is a decider since $R$ is.
+
+    \emph{What is $L(N)$}:
+
+    Case 1: $M$ accepts $w$. Then $L(N) = \Sigma^*$.
+
+    Case 2: $M$ does not accept $w$:
+
+    \begin{enumerate}[2a.]
+        \item $M$ rejects $w$. Then $N$ rejects all inputs, so $L(N) = \emptyset$.
+        \item $M$ runs forever on input $w$. Then $N$ runs forever on all inputs, so $L(N) = \emptyset$.
+    \end{enumerate}
+
+    \emph{Analysis}:
+
+    In Case 1, then $R$ rejects $\encoding{N}$, so $S$ accepts ($M$ accepts $w$). Otherwise, $L(N) = \emptyset$, so $R$ accepts $\encoding{N}$, so $S$ rejects.
+\end{proof}
+
+\begin{equation*}
+    REGULAR_{\text{TM}} = \set{\encoding{N} : N \text{ is a TM s.t. } L(N) \text{ is regular}}
+\end{equation*}
+
+\begin{proof}
+    We know $A_{\text{TM}}$ is undecidable. We want to prove $A_{\text{TM}} \leq_{T} E_{\text{TM}}$. Then we can conclude that $REGULAR_{\text{TM}}$ is undecidable.
+
+    \emph{What is $L(N)$}:
+
+    Case 1: $M$ accepts $w$. Then $L(N) = \set{0^n1^n : n \in \N}$ (NOT REGULAR!).
+
+    Case 2: $M$ does not accept $w$:
+
+    \begin{enumerate}[2a.]
+        \item $M$ rejects $w$. $L(N) = \emptyset$ is regular.
+        \item $M$ runs forever on input $w$. $L(N) = \emptyset$ is regular.
+    \end{enumerate}
+
+    \emph{Analysis}:
+
+    If $M$ accepts $w$, then $L(N)$ is not regular, so $R$ rejects, so $S$ accepts. Otherwise, $L(N) = \emptyset$, so $R$ accepts $\encoding{N}$, so $S$ rejects.
+\end{proof}
+
