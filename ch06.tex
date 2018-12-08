@@ -96,7 +96,7 @@ Must show:
 Runtime of $M$ is, let $n = \abs{x}$: $\underbrace{(2^{n^c})}_{\text{if } \abs{\Sigma} = 2} \cdot \underbrace{(\text{runtime of } V \text{ on input } x, y)}_{= (\abs{x} + \abs{y})^k \leq (2n^c)^k} = O(2^{n^{c+1}})$. Otherwise, if $\abs{\Sigma} \leq d$, it would be $d^{n^c} = 2^{(\log_2{d})n^c} = O(2^{n^{c+1}})$
 
 \begin{definition}
-    A function $f : \Sigma^* \rightarrow \Sigma^*$ is \emph{polytime computable} if there exists a \textsf{TM} $M$ that has $x$ as input, runs for time $poly(\abs{x})$, and halts with $f(x)$ written on the tape.
+    A function $f : \Sigma^* \rightarrow \Sigma^*$ is \emph{polytime computable} if there exists a TM $M$ that has $x$ as input, runs for time $poly(\abs{x})$, and halts with $f(x)$ written on the tape.
 \end{definition}
 
 \begin{definition}
@@ -111,3 +111,66 @@ Runtime of $M$ is, let $n = \abs{x}$: $\underbrace{(2^{n^c})}_{\text{if } \abs{\
 
 Notation: $A \leq_{P} B$.
 
+\section*{Lecture 22: NP-hardness and NP-completeness}
+
+\begin{theorem}[Sipser Thm. 7.31]
+    If $A \leq_{P} B$ and $B \in P$ then $A \in P$.
+\end{theorem}
+
+\begin{proof}
+    Let $N$ be a TM that decides $B$ in polytime. Let $f$ be a reduction from $A$ to $B$. We must design a TM $M$ that decides $A$.
+
+    Code for $M$: on input $x$
+
+    \begin{enumerate}
+      \item Let $z = f(x)$.
+      \item Simulate $N$ on input $z$.
+      \item \emph{Accept} if $N$ does; \emph{reject} if $N$ does.
+    \end{enumerate}
+\end{proof}
+
+\emph{Claim}: $M$ decides $A$ in polytime.
+
+Why? If $M$ accepts $\Rightarrow$ $N$ accepts $z = f(x)$ $\Rightarrow$ $f(x) \in B$ $\Rightarrow$ $x \in A$; similarly, $\ldots$ rejects $\Rightarrow$ $\ldots$ rejects $\Rightarrow$ $f(x) \notin B$ $\Rightarrow$ $x \notin A$.
+
+\emph{Runtime}: $\abs{z} = O(\abs{x}^c)$ for some $c$. Runtime of $N$ is $poly(\abs{z}) = poly(\abs{x})$. So $M$ runs in polytime.
+
+Question: Which problems in NP are ``hard''?
+
+Tricky $\ldots$ If $P = NP$, then all of NP are easy.
+
+\begin{definition}
+    A language $L$ is \emph{NP-hard} if $A \leq_{P} L$ for all $A \in NP$, i.e. $L$ is as hard as everything in NP.
+\end{definition}
+
+\emph{Claim}: $A_{\text{TM}}$ is NP-hard (maybe later).
+
+Not terribly useful, because we wanted a hard problem \emph{}{in} $NP$.
+
+\begin{definition}
+    A language $L$ is \underline{NP-complete} if $L$ is NP-hard, and $L \in NP$, i.e. $L$ is a ``hardest problem'' in NP.
+\end{definition}
+
+Does anything satisfy the definition? Amazingly, yes!
+
+\begin{theorem}[Cook-Levin]
+    SAT is NP-complete.
+\end{theorem}
+
+\begin{theorem}[Main tool for showing NP-completeness]
+    If
+
+    \begin{enumerate}
+      \item $B$ is NP-complete
+      \item $C$ is in NP
+      \item $B \leq_{P} C$
+    \end{enumerate}
+
+    Then $C$ is NP-complete.
+\end{theorem}
+
+\begin{proof}
+    By (2), $C$ is in NP. So it remains to show $C$ is NP-hard. i.e. $A \leq_{P} C$ for all $A \in NP$. For any $A$, we know there is a polytime computable $f$ s.t. $f(x) \in B \Leftrightarrow x \in A$ (because $A \leq_{P} B$). By (3), $\ldots$ $g$  s.t. $g(y) \in C \Leftrightarrow y \in B$. Let $h = g \circ f$ (i.e. $h(x) = g(f(x))$). The $h$ is polytime computable, and $h(x) \in C \Leftrightarrow x \in A$. So $h$ shows that $A \leq_{P} C$. Since this holds $\forall A \in$ NP, $C$ is NP-hard.
+\end{proof}
+
+The sort reduction we use in showing $A \leq_{P} B$ is called a ``Karp reudction'' or a ``polytime mapping problem''. Another type of reduction. more analogous to Turing-reductions, would be ``Use subroutine for $B$ a polynomial number of times to solve $A$''. Those are called ``Cook reductions''. (Possibly appearing in Asst 6 $\dots$).
