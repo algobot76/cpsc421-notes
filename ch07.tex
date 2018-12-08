@@ -1,1 +1,84 @@
 \chapter{Communication Complexity}
+
+\section*{Lecture 28: Communication complexity: definitions and examples}
+
+Model:
+
+\begin{itemize}
+    \item Finite sets $X, Y, Z$
+    \item A function $f: X \times Y \rightarrow Z$
+    \item Two ``players'': Alice and Bob, know $X, Y, Z, f$
+    \item Decide on a communication protocol
+    \item Alice gets $x \in X$, Bob gets $y \in Y$
+\end{itemize}
+
+Goal: compute $f(x, y)$ by sending bits back and forth. Must end with \emph{both} of them knowing $f(x, y)$. How many bits does it take?
+
+Notes:
+
+\begin{itemize}
+    \item We ignore computation time (or space) of Alice \& Bob.
+    \item Alice \& Bob coopratively execute the protocol.
+    \item All communication is perfect. No noise, eavesdroppers, etc.
+\end{itemize}
+
+\begin{example}
+    Let $X = Y = \set{0, 1}^n, Z = \set{0, 1}$. Consider the function
+
+    \begin{dmath*}
+        EQ_n(x, y) =
+        \begin{cases}
+            1, \text{if } x = y\\
+            0, \text{otherwise}
+        \end{cases}
+    \end{dmath*}
+\end{example}
+
+Protocol: Alice sends $x$ to Bob ($n$ bits). Bob computes $EQ_n(x, y)$, sends this to Alice (1 bit).
+
+Total: $n + 1$ bits of computation. This is completely optimal (even the $+1$).
+
+\begin{example}
+    $X, Y, Z$ same as before. Let
+
+    \begin{dmath*}
+        PARIITY_n(x, y) =
+        \begin{cases}
+            1, \text{if there are an odd \# of 1s in $x$ and $y$} \\
+            0, \text{otherwise}
+        \end{cases}
+    \end{dmath*}
+\end{example}
+
+Protocol:
+
+\begin{itemize}
+    \item Alice sends the $\sum x_i$ to Bob. ($\log(n)$ bits)
+    \item Bob sends $\sum y_i$ to Alice. ($\log(n)$ bits)
+    \item (Total: $2\log(n)$ bits)
+    \item Output the xor of those parity values
+\end{itemize}
+
+Question: How many bits needed to represent a value $v \in \set{0, \ldots, n}$.
+
+Answer: $\floor{\log_2(n) + 1} \approx \lg_2(n)$.
+
+\begin{example}
+    Suppose $U = \set{1, \ldots, n}$ and $v_1: 2^U \rightarrow \set{0, 1}$. How many bits does it take to send $v_i$ to Bob?
+
+    Answer: $2^n$.
+\end{example}
+
+\begin{example}
+    The Trivial Protocol
+
+    Protocol:
+
+    \begin{itemize}
+        \item Alice sends $x$ to Bob ($\lg\abs{x}$).
+        \item Bob computes $z: f(x, y)$.
+        \item Bob sends $z$ to Alice ($\lg\abs{z}$)
+    \end{itemize}
+
+    Total: $\lg\abs{x} + lg\abs{z}$.
+\end{example}
