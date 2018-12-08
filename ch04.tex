@@ -19,3 +19,24 @@ What strings are in $A_{\text{TM}}$!
 \begin{itemize}
     \item If $x$ is of form $\encoding{M, w}$
 \end{itemize}
+
+\section*{Lecture 16: Undecidability of ATM}
+
+$A$ =  statement on the left is False. $B$ = statement on the right is True. If $A$ is true $\Rightarrow$ B is false $\Rightarrow$ $A$ is false.
+
+$\set{0, 1}^* = \set{\epsilon, 0, 1, 00, 01, \ldots}$ countable
+
+$B = \set{0000\ldots, 111\ldots, 010101\ldots}$
+
+Why not apply diagonalization to $\set{0, 1}^*$?
+
+We need to define $a_n$. Each row $f(n)$ has finite length. If $f(n)$ has finite length $\geq n$, then $a_n$ is undefined.
+
+$2^{\Sigma^*}$ is uncountably infinite.
+
+There are many TMs
+
+\begin{description}
+    \item $\Rightarrow$ countably many decidable many languages (each decided by some TM)
+    \item $\Rightarrow$ countably many recognizable languages (each recognized by some TM)
+\end{description}
