@@ -1,0 +1,21 @@
+\chapter{Decidability}
+
+\section*{Lecture 15: Encodings, Universal Turing Machine, Countable Sets}
+
+\emph{Encodings} \textsf{TM} input is always a string. Need to represent other objects as strings. Same as ``serialization'', e.g. JSON. If we have an object $O$ (e.g. a graph) then $\encoding{O}$ represents it as a string. Assume TMs can do serialization.
+
+We can also represent TMs as strings.
+
+\begin{equation*}
+    HALT_{\text{TM}} = \set{\encoding{M, w}: M \text{ is a TM, } w \in \Sigma^* \text{, and } M \text{ halts on input} w} \tag{The Halting Problem}
+\end{equation*}
+
+\begin{equation*}
+    A_{\text{TM}} = \set{\encoding{M, w}: M \text{ accepts } w}
+\end{equation*}
+
+What strings are in $A_{\text{TM}}$!
+
+\begin{itemize}
+    \item If $x$ is of form $\encoding{M, w}$
+\end{itemize}
