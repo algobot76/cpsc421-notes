@@ -223,4 +223,60 @@ $y = \epsilon 00$, $r = q_0q_1q_2q_1$
 
 $\delta(q_0, \epsilon) = \set{q_1, q_3}$
 
+\section*{Lecture 4: Converting NFA-DFA, Operations on regular languages}
+
+Language accepted by DFAs = Language accepted by NFAs = Regular Languages
+
+Important properties of Regular Languages i.e. \emph{closure} properties. These are much easier to prove using NFAs.
+
+\begin{theorem}[1.25 and 1.45 in texts]
+    If $A$ and $B$ are regular, so is $A \cup B$ $\{x: x \in A \text{ or } x \in B\}$.
+\end{theorem}
+
+\begin{proof}
+    The slide shows there is an NFA that accepts $A \cup B$.
+
+    By theorem 1.39, $A \cup B$ is a regular language.
+\end{proof}
+
+\begin{theorem}
+    Let $A$ and $B$ be regular. Then so are:
+
+    \begin{itemize}
+        \item Concatenation: $A \circ B = \set{x \circ y: x \in A, y \in B}$
+        \item Star: $A^* = \set{x_1 \circ x_2 \circ \cdots \circ x_k: \text{ each } x_i \in A \text{ and } k \geq 0}$
+        \item Complement: $\Sigma^* \diagdown A = \set{x: x \notin A}$
+    \end{itemize}
+
+    \emph{Note}: $\Sigma$ is in $A*$ $\rightarrow$ start state must be an accepting state
+\end{theorem}
+
+\begin{proof}
+    (Theorem 1.39 and 1.40)
+
+    \emph{Main claim}: Let $M = (Q, \Sigma, \delta, q_0, F)$ be an NFA. Let $L$ ba a language accepted by $M$. We can construct a DFA $M' = (Q', \Sigma, \delta', q_0, F)$ that also accepts $L$ (so $M$ and $M'$ are equivalent).
+
+    First we need to define $\epsilon$-closure. For any set $S \subseteq Q$, let \emph{$E(S)$} be the set of all states in $Q$ that can be reached by following any number of $\epsilon$-transitions.
+
+    \emph{Back to proof}:
+
+    \begin{itemize}
+        \item The states $Q' = 2^Q$ $\set{S: S \subseteq Q}$
+        \item Accepting state $F' = \set{S \subseteq Q: \text{ any state in $S$ is an accepting state }} = \set{S \subseteq Q: S \cap F \neq \emptyset }$
+    \end{itemize}
+
+    \emph{Start state}: $q_0' = E(\set{q_0})$
+
+    \emph{Transition function $\delta'$}:
+
+    If NFA could be in states $S$, next input symbol is a, what states could it be in next?
+    \begin{itemize}
+        \item First, it could follow any $\epsilon$-transition, so could move to any state in $E(S)$.
+        \item Next, unite $E(S) = \set{S_1, \ldots, S_n}$ could move to any state in $\delta(S_1, a) \cup \delta(S_2, a) \cup \ldots = \cup_{S \in E(S)} \delta(S, a)$.
+        \item Again, it can follow any $\epsilon$-transitions
+    \end{itemize}
+
+    Final definition: $\delta'(S, a) = E(\cup_{S \in E(S)} \delta(S, a))$.
+\end{proof}
+
 \backmatter
