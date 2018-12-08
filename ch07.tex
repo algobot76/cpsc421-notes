@@ -82,3 +82,59 @@ Answer: $\floor{\log_2(n) + 1} \approx \lg_2(n)$.
 
     Total: $\lg\abs{x} + lg\abs{z}$.
 \end{example}
+
+\section*{Lecture 29: Protocol trees, Deterministic communication complexity, Monochromatic rectangles}
+
+A \emph{communication protocol} is a binary tree where each node $v$ is labelled by either:
+
+\begin{itemize}
+    \item a function $a_v: x \rightarrow \set{L, R}$
+    \item or a function $b_v: y \rightarrow \set{L, R}$
+\end{itemize}
+
+And each leaf is labelled by an element of $z$.
+
+\emph{Observation}: Depth of protocol tree = max, over all inputs, of \# of bits sent by protocol
+
+\begin{definition}
+    The (deterministic) communication complexity of a function $f$ is $\underbrace{\min}_{\substack{\text{protocol tree} \\ \text{computing} f}} (\text{depth of tree})$
+\end{definition}
+
+What is $D(EQ_2)$? The slide tells use $D(EQ_2) \leq 40$. Second slide tells us $D(EQ_2) \leq 3$. More generally, $D(EQ_2) \leq n + 1$. $EQ_n : \set{0, 1}^n \times \set{0, 1}^n \Rightarrow \set{0, 1}$.
+
+\begin{definition}
+    A \emph{rectangle} in $X \times Y$ is a set of the form $R = A \times B$ where $A \subseteq X, B \subseteq Y$.
+\end{definition}
+
+\emph{Observation}: $R$ is a rectangle iff $(x, y) \in R \wedge (x', y') \in R \Rightarrow (x, y') \in R \wedge (x', y) \in R$.
+
+\emph{Claim}:  Let $T$ be a protocol tree. Let $R_v$ be a set of inputs that cause the protocol to arrive at node $v$. Then $R_v$ is a rectangle.
+
+\emph{Sketch}: $R_{root} = X \times Y$ (a rectangle). Each node where Alice communicates eliminates some rows. $\ldots$ Bob $\ldots$. Both of these preserve rectangleness.
+
+\begin{definition}
+    A rectangle $R \subseteq X \times Y$ is called \emph{f-monochromatic} if $f(x, y)$ is the same for all $(x, y) \in R$.
+\end{definition}
+
+\begin{definition}
+    Let $R_i \subseteq X \times Y$ be a rectangle for $i = 1 \ldots k$. The set $R = \set{R_i, \ldots, R_k}$ is called a f-monochromatic partition (into rectangles) if:
+
+    \begin{itemize}
+        \item each $R_i$ is f-monochromatic
+        \item each $(x, y) \in X \times Y$ is contained in exactly one $R_i$
+    \end{itemize}
+
+    Here $\abs{R} = k = \#$ of rectangles in it.
+\end{definition}
+
+\begin{definition}
+    $C^{partition}(f) = \min \set{\abs{R}: R \text{ is a f-monochromatic partition}}$.
+\end{definition}
+
+\emph{Claim}: For any protocol tree $T$, the rectangles $\set{R_v, v \text{ is a leaf in } T}$ are a f-monochromatic partition.
+
+\begin{corollary}
+    $C^{partition}(f) \underbrace{\min}_{\text{protocol tree } T} \abs{\# \text{ of leaves in } T}$.
+\end{corollary}
+
+
