@@ -12,9 +12,9 @@ Typically we assume $M$ is a decider now.
 A class of languages defined by some resource constraint is called a \emph{complexity class}.
 
 \begin{definition}
-    \begin{equation*}
-        TIME(t(n)) = \{\text{language } L : \text{ there exists a TM with running time } O(t(n))\}
-    \end{equation*}
+    \begin{dmath*}
+        TIME(t(n)) = \set{\text{language } L : \text{ there exists a TM with running time } O(t(n))}
+    \end{dmath*}
 \end{definition}
 
 \begin{definition}
@@ -28,3 +28,53 @@ A class of languages defined by some resource constraint is called a \emph{compl
 \begin{equation*}
     3COLORMAP \in TIME(4^n) \subseteq EXP
 \end{equation*}
+
+\section*{Lecture 20: Time hierarchy theorem, Definition of NP}
+
+\begin{definition}
+    $EXP = \bigcup\limits_{k \geq 1} TIME(2^{n^k})$ and $P = \bigcup\limits_{c > 0} TIME(n^c)$
+\end{definition}
+
+\emph{Claim}: $P \subseteq EXP$
+
+Why? Because $n^c = O(2^n)$.
+
+\begin{theorem}[Time Hierarchy Theorem]
+    Let $f:\N \rightarrow \N$ be ``reasonable'', and $f(n) = \Omega(n \log{n})$. Then $TIME(f(n)) \not\subseteq TIME(f(4n)^4 \text{ or } f(n)^2)$
+\end{theorem}
+
+\begin{example}
+    Let $f(n) = n^c, TIME(n^c) \not\subseteq TIME(n^{4c}) \; \forall c > 1$.
+\end{example}
+
+\begin{corollary}
+    $TIME(n^c) \not\subseteq TIME(2^n) \;\forall c > 1$
+\end{corollary}
+
+\begin{corollary}
+    $P \not\subseteq TIME(2^n) \subseteq EXP$
+\end{corollary}
+
+\emph{Claim}: $P \subseteq NP$
+
+Open Question 1: Is $P \neq NP$?
+
+Open Question 2: Is $N \neq EXP$?
+
+
+\begin{theorem}
+    Either Question 1 or Question 2 is True.
+\end{theorem}
+
+Why? Because $P \neq EXP$. It is believed that $P \neq NP \neq EXP$.
+
+\begin{theorem}[Sipser 7.20]
+    The following are equivalent:
+
+    \begin{enumerate}
+      \item $L \in NP$
+      \item There exists a deterministic, polynomial time TM V and a constant $c$, such that $L = \set{x \in \Sigma^* \; \exists y \in \Sigma^* \text{ such that } \abs{y} \leq \abs{x}^c \text{ and } V \text{ accepts } (x, y)}$
+    \end{enumerate}
+\end{theorem}
+
+$V$ is called a ``verifier''. $y$ is called a ``certificate''.
