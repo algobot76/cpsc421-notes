@@ -1,0 +1,52 @@
+\chapter{Reducibility}
+
+\section*{Lecture 17: Reductions}
+
+Recall:
+
+\begin{itemize}
+    \item $A_{\text{TM}} = \set{\encoding{M, w} : M \text{ accepts } w}$
+    \item $HALT_{\text{TM}} = \set{M \text{ halts on } w}$
+\end{itemize}
+
+\begin{theorem}
+    $HALT_{\text{TM}}$ is undecidable.
+\end{theorem}
+
+
+\begin{proof}
+    Last time showed that $A_{\text{TM}}$ is undecidable. Show that $A_{\text{TM}} \leq_{T} HALT_{\text{TM}}$. Suppose we have a TM $R$ that decides $HALT_{\text{TM}}$. Then we want to create a TM $S$ that decides $A_{\text{TM}}$.
+
+  Design $S$: On input $x$,
+
+  \begin{enumerate}
+        \item Reject if $x$ not in form of $\encoding{M, w}$.
+        \item Run $R$ on input $\encoding{M, w}$.
+        \item If $R$ accepts, (we know $M$ halts on input $w$), simulate $M$ on input $w$. Accept if $M$ accepts, reject if $M$ rejects. Else ($M$ runs forever on input $w$). Reject. ($M$ does not accept $w$)
+  \end{enumerate}
+
+  So $S$ is a decider for $A_{\text{TM}}$. Contradiction!
+\end{proof}
+
+\emph{Claim}: Suppose $L$ and $\overline{L}$ are both recognizable, then $L$ is decidable (and so is $\overline{L}$.
+
+\begin{proof}
+    Let $M_1$ be TM that recognizes $L$. Let $M_2$ be TM that recognizes $\overline{L}$. Design a new TM $M_3$ as follows: on input $x$,
+
+  \begin{enumerate}
+        \item In parallel simulate both $M_1$ and $M_2$.
+        \item If $M_1$ halts and accepts then $M_3$ accepts.
+        \item If $M_2$ halts and accepts then $M_3$ rejects.
+  \end{enumerate}
+
+    Suppose $x \in L$. Then $M_1$ eventually accepts $x \Rightarrow M_3$ accepts $x$. $x \notin L$, then $M_2$ eventually accepts $x \Rightarrow M_3$ rejects $x$. So $M_3$ decides $L$.
+\end{proof}
+
+\begin{corollary}
+    $\overline{A_{\text{TM}}}$ is not recognizable.
+\end{corollary}
+
+\begin{proof}
+    If it was recognizable, Claim should imply $A_{\text{TM}}$ is decidable!
+\end{proof}
+
