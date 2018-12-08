@@ -98,3 +98,40 @@ Can I derive $0101$? No.
   &\rightarrow \cdots \\
   &\rightarrow 1 + 2 \times 2
 \end{align*}
+
+\section*{Lecture 9: Parse trees, Converting CFGs to PDAs}
+
+What does ambiguity mean?
+
+Maybe if a string $w$ has multiple derivations.
+
+\begin{example}
+    \[
+        G =
+        \begin{cases}
+            S \rightarrow AB \\
+            A \rightarrow a \\
+         B \rightarrow b
+        \end{cases}
+    \]
+
+    \begin{equation*}
+        L(G) = ab
+      \end{equation*}
+
+      \begin{itemize}
+        \item $S \rightarrow AB \rightarrow aB \rightarrow ab$
+        \item $S \rightarrow AB \rightarrow Ab \rightarrow ab$
+      \end{itemize}
+\end{example}
+
+This grammar should count as being ambiguous.
+
+We rule out silly ambiguity by focusing only on \emph{leftmost derivations}.
+
+A sequence $S \rightarrow u_1 \rightarrow u_2 \rightarrow \cdots \rightarrow w$, where each step applies to a rule to the leftmost variable. A grammar is ambiguous if it has multiple leftmost derivations for the same string.
+
+\begin{itemize}
+    \item $E \rightarrow E \times E \rightarrow E + E \times E \rightarrow 1 + 2 \times E \rightarrow 1 + 2 \times 2$
+    \item $E \rightarrow E + E \rightarrow 1 + E \rightarrow 1 + E \times E \rightarrow 1 + 2 \times E \rightarrow 1 + 2 \times 2$
+\end{itemize}
