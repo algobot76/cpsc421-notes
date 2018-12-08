@@ -1,3 +1,72 @@
 \chapter{The Church-Turing Thesis}
 
+\section*{Lecture 13: Examples of Multitape and Nondeterministic TMs}
 
+\begin{example}
+    $L = \{x\#x : x \in \Sigma^*\}$
+
+    Let's do an implementation-level description of a multi-tape TM for $L$. Our original TM took time $\Theta(n^2)$ for inputs of length $n$.
+
+    \begin{enumerate}
+        \item Scan head 1 to the right until it reads a \#. Move Right. (Second head is still at start of tape 2)
+        \item Repeatedly read symbol from tape 1, write it to tape 2, move both heads right, until seeing a blank on tape 1. Now second half of input is on tape 2.
+        \item Move both heads left until they reach start of tapes (possibly using \$ back to find start of tape). Replace \# by $\textvisiblespace$ while doing so.
+        \item Repeat until $\textvisiblespace$ on both tapes. If symbols differ, reject. Else, move both heads right.
+    \end{enumerate}
+
+    The multi-tape TM runs in $\Theta(n)$ time!
+\end{example}
+
+Last time: Configuration of TM, $aqb$, $a, b \in \Gamma^*$, $q \in Q$
+
+Acceptance of a NTM: Input string is accepted if $\exists$ configurations $c_0, c_1, \ldots, c_k$ where:
+
+\begin{itemize}
+    \item $c_0 = q_{start} \; w$
+    \item $c_i \Rightarrow c_{i+1}$ ($c_{i+1}$ is a possible configuration from $c_i$ following the transition function $\delta$)
+    \item $c_k$ is on the accepting state
+\end{itemize}
+
+i.e. in a tree of configs, is there an accepting state:
+
+\begin{enumerate}
+    \item $w$ is accepted: any node in tree is an accepting state
+    \item $w$ is explicitly rejected: the tree is finite, but yet no node is accepting config i.e. all leaves are rejection configs
+    \item The NTM runs forever on $w$: the tree is infinite, but no node is accepting config
+\end{enumerate}
+
+\begin{definition}
+    A NTM is a decider if for all inputs, case 1 or 2 happens.
+\end{definition}
+
+Example of NTMs: Let $L_1$, $L_2$ be recognizable languages. Let $M_i$ be a TM that recognizes $L_i$.
+
+\emph{Claim}: $L_1 \cup L_2$ is recognizable. A cheat! Let's use nondeterminism.
+
+\begin{definition}
+    Define a NTM $M$ as follows:
+
+    \begin{itemize}
+        \item Nondeterministically choose to do one of the following:
+        \begin{itemize}
+            \item Run $M_1$
+            \item Run $M_2$
+        \end{itemize}
+      \end{itemize}
+\end{definition}
+
+\emph{Claim}: $M$ recognizes $L_1 \cup L_2$.
+
+\begin{proof}
+    Suppose $w \in L_1 \cup L_2$. Say $w \in L_2$. Then the branch of tree simulating $M_i$ will accept. So $M$ is in case 1, and accepts. If $w \notin L_1 \cup L_2$, then both $M_1 \& M_2$ either run forever or reject. So $M$ is in either case 2 and case 3. So $M$ does not accept $w$.
+\end{proof}
+
+\begin{theorem}
+    Given a NTM $M$, we can construct a DTM $M$ s.t. $L(M) = L(M')$.
+\end{theorem}
+
+\begin{theorem}
+    If $M$ is a NTM decider, then we can make $M'$ a decider as well.
+\end{theorem}
+
+Using Theorem, we get a DTM $M'$, completing proof of claim 1.
