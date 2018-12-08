@@ -359,4 +359,36 @@ Can any language be described by a F.A?
 
 If input is very long, this computation path must have a \emph{cycle}.
 
+\section*{Lecture 6: Pumping lemma: Proving languages are not regular}
+
+$L = \set{w: w \text{ has a equal \# of occurrences of substrings 01 and 10 }}$
+
+This \emph{is} a regular, surprisingly (Ex 1.48).
+
+\begin{unnumfigure}
+    \includegraphics[scale=0.2]{lect6_img1}
+\end{unnumfigure}
+
+Give the DFA a long input string $w$. \emph{Computation path on input $w$} must contain a cycle. Let $x$ be the part of input that was processed before arriving at $q$. While going round cycle, read $y$ from input. After cycle, we read $z$ from input.
+
+What if input were $xyyz$. The DFA also accepts; we just travel cycle twice.
+
+\emph{Message}: If $L$ is regular, then for a sufficiently long string $w \in L$, we can repeat its special substring $y$, to get another string in $L$.
+
+\emph{Refinement of Message}: Let $p$ = \# states of DFA. If $|w| \geq p$ then computation path has length $\geq p + 1$. By Pigeonhole Principle, a cycle exists. So we can assume $\abs{xy} \leq p$. That's enough to get a cycle.
+
+\emph{Important Point}:
+
+\begin{itemize}
+  \item We can (usually) use Pumping Lemma to prove that a language is not regular by proving that it satisfies the negation of Pumping Condition.
+  \item We \emph{cannot} use P.L to prove that a language is regular.
+\end{itemize}
+
+How to negate a statement with logical quantifiers:
+
+\begin{itemize}
+  \item $\exists x$ s.t. $f$ becomes $\forall x$, NOT $f$
+  \item $\forall x$, $g$ becomes $\exists x$ s.t. NOT $g$
+\end{itemize}
+
 \backmatter
