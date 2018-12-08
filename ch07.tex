@@ -299,3 +299,71 @@ Pierre creates certificate $z = (i, x_i)$, where $i \in \set{1, \ldots, n}$ is a
 \begin{example}
     $N(EQ) \geq n$ (our fooling set, the diagonal, had size $2^n$)
 \end{example}
+
+\section*{Lecture 33: Reduction from Equality}
+
+\emph{Claim}: Alice and Bob have to communicate $\geq 2^n$ bits to solve Financial Match.
+
+\begin{proof}
+    Reduction from $EQ$. We show before $D(EQ_l) \geq l + 1$ (equally testing $l$ bits).
+
+    \begin{multicols}{2}
+        $EQ_l$
+
+        Set $l = 2^n$.
+
+        Alice: $x \in \set{0, 1}^l$.
+
+        \begin{tabular}{ |c|c|c|c|}
+            \hline
+            1 & 2 & $\ldots$ & 8\\
+            \hline
+             & & &\\
+            \hline
+        \end{tabular}
+
+        Bob: $y \in \set{0, 1}^l$.
+
+        \begin{tabular}{ |c|c|c|c|}
+            \hline
+            1 & 2 & $\ldots$ & 8\\
+            \hline
+             & & &\\
+            \hline
+        \end{tabular}
+
+        \columnbreak
+
+        $FM$
+
+        $U$ is a set of items = $\underbrace{\set{1, \ldots, n}}_{\text{let } n = 3}$.
+
+        Alice $V_A: 2^U \rightarrow \R$.
+
+        \begin{tabular}{ |c|c|c|c|}
+            \hline
+            $\emptyset$ & $\set{1}$ & $\set{2}$ & $\ldots$\\
+            \hline
+             & & &\\
+            \hline
+        \end{tabular}
+
+        Bob $V_B: 2^U \rightarrow \R$.
+
+        \begin{tabular}{ |c|c|c|c|}
+            \hline
+            $\emptyset$ & $\set{1}$ & $\set{2}$ & $\ldots$\\
+            \hline
+             & & &\\
+            \hline
+        \end{tabular}
+
+        A protocol for $FM$ must decide if $V_A(S) = V_B(S), \forall S \subseteq U$.
+    \end{multicols}
+
+    We must reduce $EQ_l$ to $FM$ i.e. given a protocol for $FM$, want to use it as a subroutine to solve $EQ_l$ i.e. Alice creates her $FM$-input $V_A$; Bob creates his $FM$-input $V_B$. They run the $FM$ protocol, and decide output for $EQ_l$. $\pi$ is a bijective map from $\set{1, \ldots, l}$ to $2^U$. Alice can set $V_A(S) = x[\pi^{-1}(S)], \forall S$; Bob can set $V_B(S) = y[\pi^{-1}(S)], \forall S$. Alice and Bob run some $FM$ protocol. Output is ``Are they a financial match or not?''. This output tells the answer to $EQ_l$. They output this value as output of $EQ_l$. So protocol for $FM$ using $k$ bits of communication gives a protocol for $EQ_l$ using $k$ bits of communication.
+
+    \begin{equation*}
+        2^n + 1 = l + 1 \leq D(EQ_l) \leq D(FM)
+    \end{equation*}
+\end{proof}
