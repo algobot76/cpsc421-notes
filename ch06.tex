@@ -399,3 +399,51 @@ Suppose $L \in coNP$. Let $x \in L$. Let $M$ be a TM showing $L \in coNP$.
 \begin{proof}
     Suppose $L$ is NP-complete. Obviously $\overline{L} \in coNP$ (by definition). Must show $A \leq_{P} \overline{L}, \forall A \in coNP$. We know $\overline{A} \in NP$. Since $L$ is NP-complete, we know $\overline{A} \leq_{p} L$. That means $\exists$ a polytime computable $f : \Sigma^* \rightarrow \Sigma^*$ satisfying $f(\overline{A}) \subseteq L$ and $f(A) \subseteq \overline{L}$. This is the same as showing $A \leq_{p} \overline{L}$. This holds $\forall A \in coNP$.
 \end{proof}
+
+\section*{Lecture 27: RP, coRP, BPP, ZPP}
+
+Defined $RP$, $coRP$, $BPP$.
+
+\emph{Claim}: $RP \subseteq NP$.
+
+\emph{Claim}: $coRP \subseteq coNP$.
+
+\emph{Question}: Is $BP \subseteq NP$? Unknown?
+
+\emph{Claim}: $RP \subseteq BPP$. (and similarly $coRP \subseteq BPP$.)
+
+\emph{Randomized Algorithms}
+
+\begin{itemize}
+    \item Stochastic Gradient Descent
+    \item Let $A$ be an unsorted array of length $n$.
+    \item Say $x$ is ``in the middle half'' if $\geq \frac{n}{4}$ elements of $A$ are $\leq x$ and $\geq \frac{n}{4}$ elements of $A$ are $\geq x$.
+    \item Goal: Find $x$ in the middle half. What runtime of $O(n)$.
+\end{itemize}
+
+Alg: Pick $x$ from $A$ at random. If $x$ is in middle half, return $x$, else FAIL.
+
+\emph{Amplifiration}:
+
+\emph{Claim}: $RP(\frac{1}{2}) = RP(\frac{3}{4})$.
+
+\begin{proof}
+    Suppose $L \in RP(\frac{1}{2})$. Then $\exists$ a \textsf{TM} $M$ s.t.
+
+    \begin{itemize}
+        \item for $x \in L$, $Pr[M \text{ accepts } x] \geq \frac{1}{2}$ ($Pr[M \text{ rejects } x] \leq \frac{1}{2}$)
+        \item for $x \notin L$, $Pr[M \text{ rejects } x] = 1$
+    \end{itemize}
+
+    Let $N$ be the \textsf{TM} on input $x$:
+
+    \begin{itemize}
+        \item Run $M$ on input $x$.
+        \item Run $M$ on input $x$.
+        \item If $M$ accepted either time, $N$ accepts, else rejects.
+    \end{itemize}
+
+    For $x \notin L$, $M$ definitely rejects both times, $Pr[M \text{ rejects } x] = 1$.
+
+    For $x \in L$, $Pr[M \text{ rejects } x] = Pr[M \text{ rejects } x \text{ first time}]$
+\end{proof}
