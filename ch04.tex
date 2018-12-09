@@ -16,9 +16,45 @@ We can also represent TMs as strings.
 
 What strings are in $A_{\text{TM}}$!
 
-\begin{itemize}
-    \item If $x$ is of form $\encoding{M, w}$
-\end{itemize}
+\begin{enumerate}
+    \item If $x$ is of form $\encoding{M, w}$ and $M$ accepts $w$, then $x \in A_{TM}$ (or rejects for $HALT_{TM}$)
+    \item If $x$ is of form $\encoding{M, w}$ and $M$ rejects for $HALT_{TM}$ or loops on input $w$, then $x \notin A_{TM}$
+    \item If $x$ \emph{not} of form $\encoding{M, w}$ then $x \notin A_{TM}$ (Junk)
+\end{enumerate}
+
+Let's show that $A_{TM}$ is \emph{recognizable}. We need to design a TM s.t. on input $x$, if $x$ is in:
+
+Case 1: our TM should accept $x$
+
+Case 2/3: TM can reject/run forever
+
+Idea(Turing): A TM can simulate another TM given via an encoding in input.
+
+$U$ is a TM that recognizes $A_{TM}$, but it is not a decider. Conclusion: $A_{TM}$ is recognizable.
+
+\begin{definition}
+    Two sets $A$ \& $B$ have the same cardinality if there exists a bijection $f: A \rightarrow B$.
+\end{definition}
+
+\begin{definition}
+    A set is called \emph{finite} if it has a bijection to $\set{1, \ldots, n}$ for some natural number $n$.
+\end{definition}
+
+\begin{definition}
+    A set is \emph{countably infinite} if it has the same cardinality as $\N$.
+\end{definition}
+
+\begin{definition}
+    A set is \emph{countable} (or \emph{at most countable}) if it is finite or countably finite.
+\end{definition}
+
+Let $E: \set{n: n \in \N \text{ and } n \text{ is even}}$
+
+\emph{Claim}: $E$ is countably infinite.
+
+\begin{proof}
+    Need a bijection $f: \N \rightarrow E$. Can use $f(x) = 2x$.
+\end{proof}
 
 \section*{Lecture 16: Undecidability of ATM}
 
