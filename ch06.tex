@@ -314,3 +314,88 @@ Familiar idea from 121: Given a \emph{deterministic TM} (i.e. some software) can
 Idea \#1: Similar idea works even with nondeterminism. Given a NTM $M$, and on input $w \in \set{0, 1}^*$ can construct a Boolean formula $\emptyset$ s.t. there exists nondeterministic choices causing $M$ to accept $w$ $\Leftrightarrow$ there exists input $x$ s.t. $\emptyset(x) =$ True $\Leftrightarrow$ $\emptyset$ is satisfiable
 
 Idea \#2: Use Configurations !!
+
+
+\section*{Lecture 25: Cook-Levin Theorem}
+
+Game plan: For any language $L \in NP$, want to prove $L \leq_{P} SAT$. Need to find $f$ s.t. $x \in L \Leftrightarrow f(x) \in SAT$. Since $L \in NP, \exists$ a NTM $M$ deciding $L$. Idea: Boolean functions can ``simulate'' algorithms.
+
+\emph{Idea \#2}: Can encode contents of table using Boolean variables.
+
+$cell[i, j]$ is $(i, j)^{\text{th}}$ entry of tableau.
+
+Let $C = Q \cup \Gamma \cup \set{\#}$. So $cell[i, j] \in C$. Define $X_{i, j, s} \forall i, j \in \set{1, \ldots, n^k}, s \in C$. Intention: $X_{i, j, s} = 1 \Leftrightarrow cell[i, j] = s$.
+
+\emph{Goal now}: Build a Boolean formula that an check if $\underbrace{\text{these Boolean variables}}_{X_{i, j, s}}$ satisfy conditions (1), (2), (3).
+
+First, let's check condition 0: $cell[i, j] $ well-defined:
+
+\begin{itemize}
+    \item At least one symbol is in cell: $\vee_{s \in C} X_{i, j, s}$.
+    \item No two symbols are in cell: $\wedge_{\substack{s, t \in C\\ s \neq t}} \neg (X_{i, j, s} \wedge X_{i, j, t})$.
+    \item $\o_{\text{cell}} = \wedge_{i, j \leq n^k} (\vee_{s \in C} X_{i, j, s} \wedge \wedge_{\substack{s, t \in C\\ s \neq t}} \neg (X_{i, j, s} \wedge X_{i, j, t})$.
+\end{itemize}
+
+Condition (1): $\o_{start} = X_{1, 1, \#} \wedge X_{1, 2, q_{start}} \wedge X_{1, 3, w_1} \wedge \ldots \wedge X_{1, n^k-1}, \textvisiblespace \wedge X_{1, n^k, \#}$.
+
+Condition (3): $\o_{accept} = \vee_{i, j \leq n^k} X_{i, j, q_{accept}}$.
+
+Condition (2): Window is grid (top-left is at $i, j$).
+
+Based $M$ can figure out all possible legal windows. $\o_{move} \wedge_{i, j \leq n^k} (Window(i, j) \text{ is valid})$
+
+Final formula: $\o = \o_{all} \wedge \o_{start} \wedge \o_{accept} \wedge \o_{move}$. We have shown $M$ accepts $w$ $\Leftrightarrow$ $\o$ is satisfiable.
+
+\section*{Lecture 26: coNP}
+
+$SAT = \set{\encoding{\o} : \o \text{ is a satisfiable Boolean formula}}$
+
+$NOSAT = \set{\encoding{\o} : \o \text{ has \emph{no} satisfiable assignment}}$
+
+\begin{definition}
+    $coNP = \set{\text{language } L: \overline{L} \in NP}$
+\end{definition}
+
+\emph{Question}: Is $coNP = \overline{coNP}$? ($= 2^{\Sigma^*} \setminus NP$)
+
+\emph{Answer}: Consider $A_{TM}$. It's $\in NP$ (not decidable) Is $A_{TM} \in NP$? If so, $\overline{A_{TM}} \in NP$. False, $\overline{A_{TM}}$ is not decidable either!
+
+\emph{Question}: Is $NOSAT \in coNP$?
+
+\emph{Answer}: ``Morally'', $NOSAT = \overline{SAT}$. Really, $\overline{NOSAT} = \underbrace{SAT}_{\in NP} \cup \underbrace{\set{x \in \Sigma^* : x \text{ not of form } \encoding{\o}}}_{\in P \subseteq NP}$. So $\overline{NOSAT} \in NP$, because $NP$ is closed under union $\Rightarrow$ $NOSAT \in coNP$. Let's say $NOSAT \approx \overline{SAT}$ (ignoring junk).
+
+\emph{Question}: Is $NP$ closed under complement? If so, $NOSAT \in NP$. Unknown $\ldots$
+
+$PRIMES = \set{\encoding{x} : x \in \N, x \text{ is a prime}}$. Is $PRIMES \in P$? Not obvious $\ldots$ Think brute force shows $PRIMES \in EXP$. Is $PRIMES \in NP$? If $x \in \N$, $n = \abs{\encoding{x}} \approx \log{x}$.
+
+$COMPOSITES = \set{\encoding{x} : x \in \N, x \text{ is not a prime}}$. Then $COMPOSITES \in NP$ because a certificate can be a \underline{non-trivial} factor. And $PRIMES \approx COMPOSITES$. So $PRIMES \in coNP$. It turns out:
+
+\begin{itemize}
+    \item $PRIMES \in NP$ (Sipser Ex 7.19)
+    \item $PRIMES \in P$ (Breakthrough in 2002)
+\end{itemize}
+
+Summary:
+
+\begin{itemize}
+    \item $NP$ = languages for which it is easy to verify membership (given a certificate)
+    \item $coNP$ = $\ldots$ non-membership ($\ldots$)
+\end{itemize}
+
+Suppose $L \in coNP$. Let $x \in L$. Let $M$ be a TM showing $L \in coNP$.
+
+\emph{Question}: Is $coNP \subseteq EXP$?
+
+\emph{Answer}: If $L \in coNP$, then there is a TM $M$ that on input $x$, its computation tree is one of the two cases on the slide. In exponential time, can compute the entire tree, and see if there's any leaf that rejects. If so, $x \notin L$.
+
+\emph{Answer 2}: IF $L \in coNP$, then $\overline{L} \in NP \subseteq EXP$. Since $EXP$ is closed under complement, $L \in EXP$.
+
+\begin{definition}
+    A language $B$ is coNP-complete if $B \in coNP$ and $A \leq_{P} B \; \forall A \in coNP$.
+\end{definition}
+
+\emph{Claim}:  L is NP-complete if and only if $\overline{L}$ is coNP-complete.
+
+\begin{proof}
+    Suppose $L$ is NP-complete. Obviously $\overline{L} \in coNP$ (by definition). Must show $A \leq_{P} \overline{L}, \forall A \in coNP$. We know $\overline{A} \in NP$. Since $L$ is NP-complete, we know $\overline{A} \leq_{p} L$. That means $\exists$ a polytime computable $f : \Sigma^* \rightarrow \Sigma^*$ satisfying $f(\overline{A}) \subseteq L$ and $f(A) \subseteq \overline{L}$. This is the same as showing $A \leq_{p} \overline{L}$. This holds $\forall A \in coNP$.
+\end{proof}
